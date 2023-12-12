@@ -812,9 +812,9 @@
     padding-bottom: 60px;
 }
 
-.chosen_dish_page .chosen_slider {
+.chosen_dish_page .chosen_dish_slider {
     width: 48%;
-    height: 581px;
+    height: 600px;
 }
 
 .chosen_dish_page .dish_swiper {
@@ -822,20 +822,44 @@
     --swiper-pagination-color: #fff;
     width: 100%;
     height: 1020px;
+    box-sizing: border-box;
+    padding: 10px 0;
+}
+
+.chosen_dish_page .dish_swiper_2 {
+    width: 80%;
+    height: 50%;
+    box-sizing: border-box;
+    padding: 8px 0;
+}
+
+.chosen_dish_page .dish_swiper_2 .swiper {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.chosen_dish_page .dish_swiper_2 .dish_img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
 }
 
 .chosen_dish_page .chosen_dish_info_container {
+    width: 49%;
+    height: 440px;
     padding: 30px 40px;
-    height: 452px;
     display: flex;
     background: #ffffff;
-    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25) inset 0px 4px 4px
-        rgba(0, 0, 0, 0.25) inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25),
+        inset 0px 4px 4px rgba(0, 0, 0, 0.25),
+        inset 0px 4px 16px rgba(242, 189, 87, 0.04);
     border-radius: 16px;
 }
 
 .chosen_dish_page .chosen_dish_info_container .chosen_dish_info_box {
-    /* margin-top: 30px; */
     width: 100%;
     height: auto;
     display: flex;
@@ -861,6 +885,44 @@
     color: #979797;
 }
 
-.chosen_dish_page .chosen_dish_info_box .rating_box {
+.chosen_dish_page .chosen_dish_info_container .rating_box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.chosen_dish_page .chosen_dish_info_container .evaluation_box {
+    display: flex;
+}
+
+.chosen_dish_page .chosen_dish_info_box .dish_desc_info {
+    margin-bottom: 35px;
+    color: #000;
+    font-family: "Poppins";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.chosen_dish_page .chosen_dish_info_box .dish_price_box {
+    margin-top: 20.32px;
+    margin-bottom: 20.87px;
+    color: #000;
+    font-family: "Poppins";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.chosen_dish_page .chosen_dish_info_box .button_box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 /************* Ending ChosenDish **************/
