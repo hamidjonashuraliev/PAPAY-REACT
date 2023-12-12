@@ -1,93 +1,101 @@
 .format.home_navbar {
-  width: 100%;
-  height: 773px;
-  display: flex;
-  background: url("/public/restaurant/header_restaurant.png");
-  background-size: cover;
+    width: 100%;
+    height: 773px;
+    display: flex;
+    background: url("/public/restaurant/header_restaurant.png");
+    background-size: cover;
+}
+
+.format_restaurant.home_navbar {
+    width: 100%;
+    height: 400px;
+    display: flex;
+    background: url("/public/restaurant/header_restaurant_main.png");
+    background-size: cover;
 }
 
 .format.home_navbar .navbar_config {
-  width: 1244.69;
-  height: 46px;
-  margin-left: 26px;
-  margin-top: 55px;
+    width: 1244.69;
+    height: 46px;
+    margin-left: 26px;
+    margin-top: 55px;
 }
 
 .home_navbar .navbar_links {
-  width: 752px;
-  height: 46px;
+    width: 752px;
+    height: 46px;
 }
 
 .home_navbar a {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 .home_navbar .hover-line a {
-  color: #ffffff;
+    color: #ffffff;
 }
 
 .home_navbar .underline {
-  display: block;
-  content: "";
-  border-bottom: solid 2px #d7b686;
+    display: block;
+    content: "";
+    border-bottom: solid 2px #d7b686;
 }
 
 .home_navbar .hover-line:after {
-  display: block;
+    display: block;
 
-  content: "";
-  border-bottom: solid 2px #d7b686;
-  transform: scaleX(0);
-  transition: transform 250ms ease-in-out;
+    content: "";
+    border-bottom: solid 2px #d7b686;
+    transform: scaleX(0);
+    transition: transform 250ms ease-in-out;
 }
 
 .home_navbar .hover-line:hover:after {
-  transform: scaleX(1);
+    transform: scaleX(1);
 }
 
 .home_navbar .head_information {
-  display: flex;
-  flex-direction: row;
-  width: 1290px;
-  height: 477px;
+    display: flex;
+    flex-direction: row;
+    width: 1290px;
+    height: 477px;
 }
 
 .home_navbar .define_restaurant {
-  position: relative;
-  width: 484px;
-  height: 143px;
-  margin-top: 48px;
+    position: relative;
+    width: 484px;
+    height: 143px;
+    margin-top: 48px;
 
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 600;
-  font-size: 50px;
-  line-height: 75px;
-  color: #ffffff;
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 50px;
+    line-height: 75px;
+    color: #ffffff;
 }
 
 .home_navbar .timeline_service {
-  position: relative;
-  width: 466px;
-  height: 28px;
-  margin-top: 30px;
+    position: relative;
+    width: 466px;
+    height: 28px;
+    margin-top: 30px;
 
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 30px;
-  color: #d5d5d5;
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 30px;
+    color: #d5d5d5;
 }
 
 .home_navbar .big_img {
-  position: relative;
-  width: 277px;
-  height: 277px;
-  margin-top: 41px;
-  margin-left: 494px;
-  background: url("/public/home/blister5.png");
-  border-radius: 90px 0 0 0;
-  filter: invert(46%) blur(1px);
-  background-size: cover;
+    position: relative;
+    width: 277px;
+    height: 277px;
+    margin-top: 41px;
+    margin-left: 494px;
+    background: url("/public/home/blister5.png");
+    border-radius: 90px 0 0 0;
+    filter: invert(46%) blur(1px);
+    background-size: cover;
 }

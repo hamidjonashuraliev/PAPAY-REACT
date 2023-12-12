@@ -4,8 +4,6 @@ import "../css/App.css";
 import "../css/navbar.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-import { RestaurantPage } from "./screens/CommunityPage";
-import { CommunityPage } from "./screens/RestaurantPage";
 import { OrderPage } from "./screens/OrderPage";
 import { MemberPage } from "./screens/MemberPage";
 import { HelpPage } from "./screens/HelpPage";
@@ -13,6 +11,8 @@ import { LoginPage } from "./screens/LoginPage";
 import { NavbarHome } from "./components/header";
 import { NavbarRestaurant } from "./components/header/restaurant";
 import { NavbarOthers } from "./components/header/others";
+import { CommunityPage } from "./screens/CommunityPage";
+import { RestaurantPage } from "./screens/RestaurantPage";
 import { HomePage } from "./screens/Homepage";
 
 function App() {
@@ -22,15 +22,15 @@ function App() {
     return (
         <Router>
             {main_path == "/" ? (
-                <NavbarHome />
+                <NavbarHome setPath={setPath} />
             ) : main_path.includes("/restaurant") ? (
                 <NavbarRestaurant setPath={setPath} />
             ) : (
                 <NavbarOthers setPath={setPath} />
             )}
 
-            {/* <nav>
-          <ul> 
+            <nav>
+                {/* <ul> 
             <li>
               <Link to="/restaurant">RestaurantPage</Link>
             </li>
@@ -52,8 +52,8 @@ function App() {
             <li>
               <Link to="/">Homepage</Link>
             </li>
-          </ul>
-        </nav> */}
+          </ul> */}
+            </nav>
 
             <Switch>
                 <Route path="/restaurant">
