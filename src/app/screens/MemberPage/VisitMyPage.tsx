@@ -18,6 +18,8 @@ import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import TuiEditor from "../../components/tuiEditor/TuiEditor";
+import TViewer from "../../components/tuiEditor/TViewer";
 
 export function VisitMyPage(props: any) {
   // INITIALIZATIONS
@@ -85,11 +87,13 @@ export function VisitMyPage(props: any) {
                   <TabPanel value="4">
                     <Box className="menu_name">Maqola yozish</Box>
                     <Box className="write_content">
+                      <TuiEditor />
                     </Box>
                   </TabPanel>
                   <TabPanel value="5">
                     <Box className="menu_name">Tanlangan Maqola</Box>
                     <Box className="menu_content">
+                      <TViewer text={`<h3>Hello Dean</h3>`} />
                     </Box>
                   </TabPanel>
                   <TabPanel value="6">
@@ -171,7 +175,7 @@ export function VisitMyPage(props: any) {
                   <TabList
                     orientation="vertical"
                     onChange={handleChange}
-                     aria-label="lab API tabs example"
+                    aria-label="lab API tabs example"
                   >
                     <Tab
                       style={{ display: "flex", flexDirection: "column" }}
@@ -187,31 +191,31 @@ export function VisitMyPage(props: any) {
                       )}
                     />
                     <Tab
-                        style={{ display: "flex", flexDirection: "column" }}
-                        value="2"
-                        component={() => (
-                          <div
-                            className={`menu_box ${value}`}
-                            onClick={() => setValue("2")}
-                          >
-                            <img src={"/icons/followers.svg"} />
-                            <span>Followers</span>
-                          </div>
-                        )}
-                      />
+                      style={{ display: "flex", flexDirection: "column" }}
+                      value="2"
+                      component={() => (
+                        <div
+                          className={`menu_box ${value}`}
+                          onClick={() => setValue("2")}
+                        >
+                          <img src={"/icons/followers.svg"} />
+                          <span>Followers</span>
+                        </div>
+                      )}
+                    />
                     <Tab
-                        style={{ display: "flex", flexDirection: "column" }}
-                        value="3"
-                        component={() => (
-                          <div
-                            className={`menu_box ${value}`}
-                            onClick={() => setValue("3")}
-                          >
-                            <img src={"/icons/following.svg"} alt="Following" />
-                            <span>Following</span>
-                          </div>
-                        )}
-                      />
+                      style={{ display: "flex", flexDirection: "column" }}
+                      value="3"
+                      component={() => (
+                        <div
+                          className={`menu_box ${value}`}
+                          onClick={() => setValue("3")}
+                        >
+                          <img src={"/icons/following.svg"} alt="Following" />
+                          <span>Following</span>
+                        </div>
+                      )}
+                    />
                   </TabList>
                 </Box>
               </Stack>

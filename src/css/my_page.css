@@ -404,3 +404,10 @@
     padding: 20px;
 }
 /******************* ending MySettings ******************/
+
+/******************* starting TuiEditor ******************/
+.my_page .write_content,
+.menu_content {
+    margin-right: 20px;
+}
+/******************* ending TuiEditor ******************/

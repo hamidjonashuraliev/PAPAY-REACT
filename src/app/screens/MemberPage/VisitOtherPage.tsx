@@ -12,6 +12,7 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import YouTubeIcon from "@mui/icons-material/YouTube";
+import TViewer from "../../components/tuiEditor/TViewer";
 
 export function VisitOtherPage(props: any) {
   const [value, setValue] = useState("1");
@@ -51,7 +52,9 @@ export function VisitOtherPage(props: any) {
 
                   <TabPanel value="4">
                     <Box className="menu_name">Tanlangan Maqola</Box>
-                    <Box className="menu_content"></Box>
+                    <Box className="menu_content">
+                    <TViewer text={`<h3>Hello Dean</h3>`} />
+                    </Box>
                   </TabPanel>
                 </Box>
               </Stack>
