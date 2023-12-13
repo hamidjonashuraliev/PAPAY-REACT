@@ -437,7 +437,7 @@ export function TopRestaurants() {
                                             display: "flex",
                                         }}
                                     >
-                                        <div>50</div>
+                                        50{" "}
                                         <Favorite
                                             sx={{
                                                 fontSize: 20,

@@ -4,6 +4,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Autoplay, Navigation, Pagination } from "swiper";
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
+// modification loyiha talablari:
+
+// - event collectionini tashkillashtirish;
+// - dishlarga review qoldirish;
+// - Articlega comment qoldirish;
+// shu larni loyihamizda qilishimiz shart
+
 export function Events() {
     const events_list = [
         {
@@ -80,9 +87,12 @@ export function Events() {
                             disableOnInteraction: true,
                         }}
                     >
-                        {events_list.map((value, number) => {
+                        {events_list.map((value, index) => {
                             return (
-                                <SwiperSlide className="events_info_frame">
+                                <SwiperSlide
+                                    className="events_info_frame"
+                                    key={index}
+                                >
                                     <div className="events_img">
                                         <img
                                             src={value.img}

@@ -58,7 +58,7 @@ export function AllRestaurants() {
 
                     <Stack className={"all_res_box"}>
                         <CssVarsProvider>
-                            {order_list.map((ele) => {
+                            {order_list.map((ele, index) => {
                                 return (
                                     <Card
                                         variant="outlined"
@@ -68,6 +68,7 @@ export function AllRestaurants() {
                                             mx: "17px",
                                             my: "20px",
                                         }}
+                                        key={index}
                                     >
                                         <CardOverflow>
                                             <AspectRatio ratio="1">
@@ -179,7 +180,7 @@ export function AllRestaurants() {
                                                     display: "flex",
                                                 }}
                                             >
-                                                <div>500</div>
+                                                500{" "}
                                                 <Favorite
                                                     sx={{
                                                         fontSize: 20,
