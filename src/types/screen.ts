@@ -6,6 +6,7 @@ export interface AppRootState {
     homePage: HomePageState;
   
 }
+
 export interface HomePageState {
 
     topRestaurants: Restaurant[];
