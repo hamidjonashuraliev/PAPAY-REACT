@@ -53,7 +53,7 @@ export function VisitOtherPage(props: any) {
                   <TabPanel value="4">
                     <Box className="menu_name">Tanlangan Maqola</Box>
                     <Box className="menu_content">
-                    <TViewer text={`<h3>Hello Dean</h3>`} />
+                    <TViewer text={`<h3>Hello John</h3>`} />
                     </Box>
                   </TabPanel>
                 </Box>
@@ -108,7 +108,7 @@ export function VisitOtherPage(props: any) {
                         <Tab
                           style={{ display: "flex", flexDirection: "column" }}
                           value="4"
-                          component={(e) => (
+                          component={() => (
                             <Button
                               variant="contained"
                               style={{ backgroundColor: "#f70909b8" }}
@@ -121,7 +121,7 @@ export function VisitOtherPage(props: any) {
                         <Tab
                           style={{ flexDirection: "column" }}
                           value="4"
-                          component={(e) => (
+                          component={() => (
                             <Button
                               variant="contained"
                               style={{ backgroundColor: "#30945e" }}

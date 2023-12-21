@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import { Dispatch } from "@reduxjs/toolkit";
 
 const followings = [
-  { mb_nick: "dean" },
+  { mb_nick: "john" },
   { mb_nick: "justin" },
   { mb_nick: "jason" },
 ];

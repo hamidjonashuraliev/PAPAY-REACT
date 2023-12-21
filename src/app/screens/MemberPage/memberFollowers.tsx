@@ -4,7 +4,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 
 const followers = [
-  { mb_nick: "dean", following: true },
+  { mb_nick: "john", following: true },
   { mb_nick: "jonibek", following: false },
   { mb_nick: "belli", following: true },
 ];

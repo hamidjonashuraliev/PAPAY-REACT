@@ -203,7 +203,7 @@ export function CommunityChats() {
             sx={{ m: "10px 0px" }}
             justifyContent={'flex-end'}
           >
-            <div className="msg_right">ismi Dean</div>
+            <div className="msg_right">ismi John</div>
           </Box>
           <Box
             flexDirection="row"
@@ -211,7 +211,7 @@ export function CommunityChats() {
             sx={{ m: "10px 0px" }}
           >
             <Avatar alt="martin" src="/community/cute_girl.jpeg" />
-            <div className="msg_left">kim u Dean?</div>
+            <div className="msg_left">kim u John?</div>
           </Box>
           <Box
             flexDirection="row"

@@ -17,7 +17,7 @@ export function TargetArticles(props: any) {
     return (
         <Stack>
             {props.targetBoArticles?.map((article: any, index: number) => {
-                const artImage_url = "/community/dean.jpg";
+                const artImage_url = "/community/john.jpg";
                 return (
                     <Link
                         className="all_article_box"
@@ -40,7 +40,7 @@ export function TargetArticles(props: any) {
                                     }}
                                 />
                                 <span className="all_article_author_user">
-                                    dean
+                                    john
                                 </span>
                             </Box>
                             <Box

@@ -1,5 +1,5 @@
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../css/App.css";
 import "../css/navbar.css";
 import "../css/footer.css";
@@ -16,6 +16,7 @@ import { CommunityPage } from "./screens/CommunityPage";
 import { RestaurantPage } from "./screens/RestaurantPage";
 import { Footer } from "./components/footer";
 import { HomePage } from "./screens/Homepage";
+import Car from "./screens/testCar";
 
 function App() {
     const [path, setPath] = useState();
@@ -51,7 +52,9 @@ function App() {
                     <LoginPage />
                 </Route>
                 <Route path="/">
-                    <HomePage />
+
+                    <Car />
+                    {/* <HomePage /> */}
                 </Route>
             </Switch>
 
