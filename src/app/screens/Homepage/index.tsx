@@ -4,46 +4,51 @@ import { Statistics } from "./Statistics";
 import { TopRestaurants } from "./topRestaurants";
 import { BestRestaurants } from "./bestRestaurants";
 import { BestDishes } from "./bestDishes";
-import { Advertisements } from "./advertisements";
+import { Adverticements } from "./advertisements";
 import { Events } from "./events";
 import { Recommendations } from "./recommendations";
 import "../../../css/home.css";
 
 //Redux
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
-import { setTopRestaurants } from "../../screens/Homepage/slice";
+import {
+    setBestRestaurants,
+    setTopRestaurants, } from "../../screens/Homepage/slice";
 
-import { retriveTopRestaurants } from "../../screens/Homepage/selector";
 import { Restaurant } from "../../../types/user";
 import RestaurantApiService from "../../apiServices/restaurantApiService";
 
 /** REDUX SLICE */
 const actionDispatch = (dispach: Dispatch) => ({
     setTopRestaurants: (data: Restaurant[]) => dispach(setTopRestaurants(data)),
+    setBestRestaurants: (data: Restaurant[]) =>  dispach(setBestRestaurants(data)),
+     
 });
-/** REDUX Selector */
 
-const topRestaurantRetriver = createSelector(
-    retriveTopRestaurants,
-    (topRestaurants) => ({
-        topRestaurants,
-    })
-);
 
 export function HomePage() {
     //** INITIALIZATION */
-    const { setTopRestaurants } = actionDispatch(useDispatch());
+    const { setTopRestaurants, setBestRestaurants } = actionDispatch(
+        useDispatch()
+    );
 
     useEffect(() => {
-       
-        
         const restaurantService = new RestaurantApiService();
         restaurantService
             .getTopRestaurants()
             .then((data) => {
                 setTopRestaurants(data);
+            })
+            .catch((err) => console.log(err));
+
+        restaurantService
+            .getRestaurants({ page: 1, limit: 4, order: "mb_point" })
+            .then((data) => {
+                console.log("best", data);
+
+                setBestRestaurants(data);
             })
             .catch((err) => console.log(err));
     }, []);
@@ -54,9 +59,69 @@ export function HomePage() {
             <TopRestaurants />
             <BestRestaurants />
             <BestDishes />
-            <Advertisements />
+            <Adverticements />
             <Events />
             <Recommendations />
         </div>
     );
 }
+
+
+
+// // import { Container } from "@mui/material";
+// import React, { useEffect } from "react";
+// import { Statistics } from "./Statistics";
+// import { TopRestaurants } from "./topRestaurants";
+// import { BestRestaurants } from "./bestRestaurants";
+// import { BestDishes } from "./bestDishes";
+// import { Adverticements } from "./advertisements";
+// import { Events } from "./events";
+// import { Recommendations } from "./recommendations";    
+// import '../../../css/home.css';
+// //REDUX
+// import { useDispatch, } from "react-redux";
+// import {Dispatch} from "@reduxjs/toolkit";
+// // import { createSelector } from "reselect";
+// import {setTopRestaurants, setBestRestaurants, } from "../../screens/Homepage/slice"
+// //import {retrieveTopRestaurants } from "../../screens/Homepage/selector"
+// import { Restaurant } from "../../../types/user";
+// import RestaurantApiService from "../../apiServices/restaurantApiService";
+
+// //REDUX SLICE
+// const actionDispatch = (dispach: Dispatch) => ({
+//     setTopRestaurants: (data: Restaurant[]) => dispach(setTopRestaurants(data)),
+//     setBestRestaurants: (data: Restaurant[]) => dispach(setBestRestaurants(data)),
+//   });
+
+// export function HomePage() {
+// //INITIALIZATION
+// const { setTopRestaurants,  setBestRestaurants} = actionDispatch(useDispatch());
+
+
+//     useEffect (() => {
+
+//       const restaurantService = new RestaurantApiService();
+
+//       restaurantService.getTopRestaurants().then(data => {
+//         setTopRestaurants(data);
+
+
+//       }).catch(err => console.log(err));
+
+//       restaurantService.getRestaurants({page: 1, limit: 4, order: 'mb_point'}).then(data => {
+//         setBestRestaurants(data);
+
+//       }).catch(err => console.log(err));    
+//     }, []);
+//     return (
+//     <div className="homepage">           
+//         <Statistics/>
+//         <TopRestaurants/>
+//         <BestRestaurants/>
+//         <BestDishes/>
+//         <Adverticements/>
+//         <Events/>
+//         <Recommendations/>
+//     </div>
+//     );
+// }

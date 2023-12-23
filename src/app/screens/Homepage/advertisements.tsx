@@ -1,7 +1,7 @@
 import React from "react";
 import { Container } from "@mui/material";
 
-export function Advertisements() {
+export function Adverticements() {
     return (
         <div className="ads_restaurant_frame">
             <video

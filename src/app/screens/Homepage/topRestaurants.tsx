@@ -27,6 +27,7 @@ const topRestaurantRetriver = createSelector(
 );
 
 export function TopRestaurants() {
+    /** INITIALIZATION */
     const { topRestaurants } = useSelector(topRestaurantRetriver);
 
     console.log("topRestaurants::", topRestaurants);
@@ -123,7 +124,7 @@ export function TopRestaurants() {
                                             </IconButton>
 
                                             <Typography
-                                                // level="body3"
+                                                level="body3"
                                                 sx={{
                                                     fontWeight: "md",
                                                     color: "neutral.300",
