@@ -22,7 +22,7 @@ import TuiEditor from "../../components/tuiEditor/TuiEditor";
 import TViewer from "../../components/tuiEditor/TViewer";
 
 export function VisitMyPage(props: any) {
-    // INITIALIZATIONS
+      /** INITIALIZATIONS */
     const [value, setValue] = React.useState("1");
 
     // HANDLERS

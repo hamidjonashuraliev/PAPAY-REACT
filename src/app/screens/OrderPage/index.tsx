@@ -13,7 +13,7 @@ import FinishedOrders from "../../components/orders/finishedOrders";
 import Marginer from "../../components/marginer";
 
 export function OrderPage() {
-    /* INITIALIZATIONS */
+      /** INITIALIZATIONS */
     const [value, setValue] = useState("1");
 
     /* HANDLERS */

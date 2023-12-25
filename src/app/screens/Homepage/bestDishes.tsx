@@ -26,7 +26,7 @@ import { serverApi } from "../../../lib/config";
 // );
 
 // export function BestDishes() {
-//     /** INITIALIZATION */
+//     /** INITIALIZATIONS */
 //     const { setTrendProducts } = actionDispatch(useDispatch());
 //     const { trendProducts } = useSelector(trendProductsRetrives);
 //     useEffect(() => {
@@ -103,7 +103,7 @@ const trendProductsRetriever = createSelector(
 );
 
 export function BestDishes() {
-    // Initialization
+      /** INITIALIZATIONS */
     const { setTrendProducts } = actionDispatch(useDispatch());
     const { trendProducts } = useSelector(trendProductsRetriever);
     useEffect(() => {

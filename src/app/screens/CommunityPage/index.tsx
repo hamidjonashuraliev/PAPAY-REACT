@@ -13,7 +13,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 export function CommunityPage(props: any) {
-    // INITIALIZATIONS
+   /** INITIALIZATIONS */
     const [value, setValue] = React.useState("1");
 
     // HANDLERS
