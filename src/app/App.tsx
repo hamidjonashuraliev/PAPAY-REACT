@@ -17,6 +17,7 @@ import { RestaurantPage } from "./screens/RestaurantPage";
 import { Footer } from "./components/footer";
 import { HomePage } from "./screens/Homepage";
 import Car from "./screens/testCar";
+import AuthenticationModal from "./components/auth";
 
 function App() {
     const [path, setPath] = useState();
@@ -52,13 +53,13 @@ function App() {
                     <LoginPage />
                 </Route>
                 <Route path="/">
-
                     {/* <Car /> */}
                     <HomePage />
                 </Route>
             </Switch>
 
             <Footer />
+            <AuthenticationModal />
         </Router>
     );
 }
