@@ -22,7 +22,7 @@ import TuiEditor from "../../components/tuiEditor/TuiEditor";
 import TViewer from "../../components/tuiEditor/TViewer";
 
 export function VisitMyPage(props: any) {
-      /** INITIALIZATIONS */
+    /** INITIALIZATIONS */
     const [value, setValue] = React.useState("1");
 
     // HANDLERS
@@ -152,7 +152,7 @@ export function VisitMyPage(props: any) {
                                             </div>
                                         </div>
                                         <span className={"order_user_name"}>
-                                            Tangirov Sirojiddin
+                                            ASHURALIEV HAMIDJON
                                         </span>
                                         <span className={"order_user_prof"}>
                                             USER
