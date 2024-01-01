@@ -16,7 +16,10 @@ import { createSelector } from "reselect";
 import { retriveTopRestaurants } from "../../screens/Homepage/selector";
 import { Restaurant } from "../../../types/user";
 import { serverApi } from "../../../lib/config";
-import { sweetErrorHandling } from "../../../lib/sweetAlert";
+import {
+    sweetErrorHandling,
+    sweetTopSmallSuccessAlert,
+} from "../../../lib/sweetAlert";
 import assert from "assert";
 import { Definer } from "../../../lib/Definer";
 import MemberApiService from "../../apiServices/memberApiService";
@@ -38,14 +41,11 @@ export function TopRestaurants() {
     console.log("topRestaurants::", topRestaurants);
 
     const refs: any = useRef([]);
-   
-   
+
     /** HANDLERS */
 
-    const chosenRestaurantHandler = (id: string) => {
-        history.push(`/restaurant/${id}`)
-    }
-
+    const chosenRestaurantHandler = (id: string) =>
+        history.push(`/restaurant/${id}`);
     const targetLikeTop = async (e: any, id: string) => {
         try {
             assert.ok(localStorage.getItem("member_data"), Definer.auth_err1);
@@ -56,14 +56,15 @@ export function TopRestaurants() {
                     group_type: "member",
                 });
             assert.ok(like_result, Definer.general_err1);
+
             if (like_result.like_status > 0) {
                 e.target.style.fill = "red";
                 refs.current[like_result.like_ref_id].innerHTML++;
-
             } else {
                 e.target.style.fill = "white";
                 refs.current[like_result.like_ref_id].innerHTML--;
             }
+            await sweetTopSmallSuccessAlert("success", 700, false);
         } catch (err: any) {
             console.log("targetLikeTop, ERROR:", err);
             sweetErrorHandling(err).then();
@@ -85,7 +86,9 @@ export function TopRestaurants() {
                             return (
                                 <CssVarsProvider key={ele._id}>
                                     <Card
-                                    onClick={() => chosenRestaurantHandler(ele._id)}
+                                        onClick={() =>
+                                            chosenRestaurantHandler(ele._id)
+                                        }
                                         sx={{
                                             minHeight: 430,
                                             minWidth: 325,
@@ -136,6 +139,7 @@ export function TopRestaurants() {
                                             }}
                                         >
                                             <IconButton
+
                                                 aria-label="Like minimal photography"
                                                 size="md"
                                                 variant="solid"
@@ -150,6 +154,7 @@ export function TopRestaurants() {
                                                         "translateY(50%)",
                                                     color: "rgba(0, 0, 0, .4)",
                                                 }}
+                                                onClick={(e) => {e.stopPropagation()}}
                                             >
                                                 <Favorite
                                                     onClick={(e) =>
