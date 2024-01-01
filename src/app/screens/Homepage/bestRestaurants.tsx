@@ -15,7 +15,7 @@ import CallIcon from "@mui/icons-material/Call";
 //Redux
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
-import { retriveBestRestaurants } from "../../screens/Homepage/selector";
+import { retrieveBestRestaurants } from "../../screens/Homepage/selector";
 import { Restaurant } from "../../../types/user";
 import { serverApi } from "../../../lib/config";
 import assert from "assert";
@@ -29,8 +29,8 @@ import { useHistory } from "react-router-dom";
 
 /** REDUX Selector */
 
-const bestRestauransRetriver = createSelector(
-    retriveBestRestaurants,
+const bestRestauransRetriever = createSelector(
+    retrieveBestRestaurants,
     (bestRestaurants) => ({
         bestRestaurants,
     })
@@ -39,7 +39,7 @@ const bestRestauransRetriver = createSelector(
 export function BestRestaurants() {
     /** INITIALIZATIONS */
     const history = useHistory();
-    const { bestRestaurants } = useSelector(bestRestauransRetriver);
+    const { bestRestaurants } = useSelector(bestRestauransRetriever);
 
     const refs: any = useRef([]);
 

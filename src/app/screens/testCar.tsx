@@ -17,7 +17,7 @@ class Car extends Component {
     componentDidMount() {
         console.log("run componentDidMount");
         
-        //runs after first render = RETRIVE DATA FROM BACKEND SERVER
+        //runs after first render = RETRIEVE DATA FROM BACKEND SERVER
     }
 
     componentWillUnmount() {

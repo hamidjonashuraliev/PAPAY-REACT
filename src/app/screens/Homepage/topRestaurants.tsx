@@ -10,11 +10,6 @@ import { CssVarsProvider } from "@mui/joy/styles";
 import { CardOverflow, IconButton } from "@mui/joy";
 import { Favorite } from "@mui/icons-material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-//Redux
-import { useSelector } from "react-redux";
-import { createSelector } from "reselect";
-import { retriveTopRestaurants } from "../../screens/Homepage/selector";
-import { Restaurant } from "../../../types/user";
 import { serverApi } from "../../../lib/config";
 import {
     sweetErrorHandling,
@@ -25,10 +20,19 @@ import { Definer } from "../../../lib/Definer";
 import MemberApiService from "../../apiServices/memberApiService";
 import { useHistory } from "react-router-dom";
 
+//Redux
+import { useSelector } from "react-redux";
+import { createSelector } from "reselect";
+import { retrieveTopRestaurants } from "../../screens/Homepage/selector";
+import { Restaurant } from "../../../types/user";
+
+
+
+
 /** REDUX Selector */
 
-const topRestaurantRetriver = createSelector(
-    retriveTopRestaurants,
+const topRestaurantRetriever = createSelector(
+    retrieveTopRestaurants,
     (topRestaurants) => ({
         topRestaurants,
     })
@@ -37,7 +41,7 @@ const topRestaurantRetriver = createSelector(
 export function TopRestaurants() {
     /** INITIALIZATIONS */
     const history = useHistory();
-    const { topRestaurants } = useSelector(topRestaurantRetriver);
+    const { topRestaurants } = useSelector(topRestaurantRetriever);
     console.log("topRestaurants::", topRestaurants);
 
     const refs: any = useRef([]);

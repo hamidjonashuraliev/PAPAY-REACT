@@ -1,27 +1,27 @@
 import { createSelector } from "reselect";
 import { AppRootState } from "../../../types/screen";
 const selectHomePage = (state: AppRootState) => state.homePage;
-export const retriveTopRestaurants = createSelector(
+export const retrieveTopRestaurants = createSelector(
     selectHomePage,
     (HomePage) => HomePage.topRestaurants
 );
-export const retriveBestRestaurants= createSelector(
+export const retrieveBestRestaurants= createSelector(
     selectHomePage,
     (HomePage) => HomePage.bestRestaurants
 );
-export const retriveTrendProducts = createSelector(
+export const retrieveTrendProducts = createSelector(
     selectHomePage,
     (HomePage) => HomePage.trendProducts
 );
-export const retriveTrendBoArticles= createSelector(
+export const retrieveTrendBoArticles= createSelector(
     selectHomePage,
     (HomePage) => HomePage.trendBoArticles
 );
-export const retriveBestBoArticles = createSelector(
+export const retrieveBestBoArticles = createSelector(
     selectHomePage,
     (HomePage) => HomePage.bestBoArticles
 );
-export const retriveNewsBoArticles = createSelector(
+export const retrieveNewsBoArticles = createSelector(
     selectHomePage,
     (HomePage) => HomePage.newsBoArticles
 );
