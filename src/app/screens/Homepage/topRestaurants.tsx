@@ -26,11 +26,7 @@ import { createSelector } from "reselect";
 import { retrieveTopRestaurants } from "../../screens/Homepage/selector";
 import { Restaurant } from "../../../types/user";
 
-
-
-
 /** REDUX Selector */
-
 const topRestaurantRetriever = createSelector(
     retrieveTopRestaurants,
     (topRestaurants) => ({
@@ -43,13 +39,12 @@ export function TopRestaurants() {
     const history = useHistory();
     const { topRestaurants } = useSelector(topRestaurantRetriever);
     console.log("topRestaurants::", topRestaurants);
-
     const refs: any = useRef([]);
 
     /** HANDLERS */
-
     const chosenRestaurantHandler = (id: string) =>
         history.push(`/restaurant/${id}`);
+
     const targetLikeTop = async (e: any, id: string) => {
         try {
             assert.ok(localStorage.getItem("member_data"), Definer.auth_err1);
