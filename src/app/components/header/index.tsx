@@ -14,7 +14,6 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
 export function NavbarHome(props: any) {
-   
     return (
         <div className="format home_navbar">
             <Container>
@@ -112,7 +111,7 @@ export function NavbarHome(props: any) {
                             />
                         )}
 
-<Menu
+                        <Menu
                             anchorEl={props.anchorEl}
                             open={props.open}
                             onClose={props.handleCloseLogOut}
@@ -130,7 +129,7 @@ export function NavbarHome(props: any) {
                                         mr: 1,
                                     },
                                     "&:before": {
-                                        content: '"',
+                                        content: '""',
                                         display: "block",
                                         position: "absolute",
                                         top: 0,
@@ -153,9 +152,7 @@ export function NavbarHome(props: any) {
                                 vertical: "bottom",
                             }}
                         >
-                            <MenuItem
-                            onClick={props.handleLogOutRequest}
-                            >
+                            <MenuItem onClick={props.handleLogOutRequest}>
                                 <ListItemIcon>
                                     <Logout
                                         fontSize="small"

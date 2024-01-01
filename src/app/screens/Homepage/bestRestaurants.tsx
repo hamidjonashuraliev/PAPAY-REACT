@@ -81,7 +81,12 @@ export function BestRestaurants() {
                                             >
                                                 <Favorite
                                                     style={{
-                                                        color: "white",
+                                                        fill:
+                                                            ele?.me_liked &&
+                                                            ele?.me_liked[0]
+                                                                ?.my_favorite // Add a check for 'my_favorite' property
+                                                                ? "red"
+                                                                : "white",
                                                     }}
                                                 />
                                             </IconButton>
