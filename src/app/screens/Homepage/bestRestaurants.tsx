@@ -44,7 +44,7 @@ export function BestRestaurants() {
     const refs: any = useRef([]);
 
     /** HANDLERS */
-    const chosenRestaurantHandler = (id: string) => history.push(`/restaurant/${id}`);
+    const chosenRestaurantHandler = (id: string) => {history.push(`/restaurant/${id}`);};
     const goRestaurantsHandlers = () => history.push("/restaurant");
     const targetLikeBest = async (e: any, id: string) => {
         try {
@@ -90,7 +90,8 @@ export function BestRestaurants() {
                             const image_path = `${serverApi}/${ele.mb_image}`;
 
                             return (
-                                <CssVarsProvider>
+                                <CssVarsProvider
+                                key={ele._id}>
                                     <Card
                                         onClick={() =>
                                             chosenRestaurantHandler(ele._id)
@@ -105,7 +106,7 @@ export function BestRestaurants() {
                                     >
                                         <CardOverflow>
                                             <AspectRatio ratio="1">
-                                                <img src={image_path} />
+                                                <img src={image_path} alt="" />
                                             </AspectRatio>
                                             <IconButton
                                                 aria-label="Like minimal photography"

@@ -42,8 +42,9 @@ export function TopRestaurants() {
     const refs: any = useRef([]);
 
     /** HANDLERS */
-    const chosenRestaurantHandler = (id: string) =>
+    const chosenRestaurantHandler = (id: string) => {
         history.push(`/restaurant/${id}`);
+    };
 
     const targetLikeTop = async (e: any, id: string) => {
         try {
@@ -138,7 +139,6 @@ export function TopRestaurants() {
                                             }}
                                         >
                                             <IconButton
-
                                                 aria-label="Like minimal photography"
                                                 size="md"
                                                 variant="solid"
@@ -153,7 +153,9 @@ export function TopRestaurants() {
                                                         "translateY(50%)",
                                                     color: "rgba(0, 0, 0, .4)",
                                                 }}
-                                                onClick={(e) => {e.stopPropagation()}}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                }}
                                             >
                                                 <Favorite
                                                     onClick={(e) =>
