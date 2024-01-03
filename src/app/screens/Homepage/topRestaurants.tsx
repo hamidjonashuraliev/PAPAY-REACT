@@ -26,7 +26,7 @@ import { createSelector } from "reselect";
 import { retrieveTopRestaurants } from "../../screens/Homepage/selector";
 import { Restaurant } from "../../../types/user";
 
-/** REDUX Selector */
+/** REDUX SELECTOR */
 const topRestaurantRetriever = createSelector(
     retrieveTopRestaurants,
     (topRestaurants) => ({

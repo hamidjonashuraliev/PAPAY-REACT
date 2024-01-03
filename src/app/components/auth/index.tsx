@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2, 2, 2),
     },
 }));
-
+{/*@ts-ignore*/}
 const ModalImg = styled.img`
     width: 62%;
     height: 100%;

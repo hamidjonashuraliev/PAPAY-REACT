@@ -27,7 +27,7 @@ import {
 } from "../../../lib/sweetAlert";
 import { useHistory } from "react-router-dom";
 
-/** REDUX Selector */
+/** REDUX SELECTOR */
 
 const bestRestauransRetriever = createSelector(
     retrieveBestRestaurants,

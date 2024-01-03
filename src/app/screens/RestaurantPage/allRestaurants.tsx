@@ -21,11 +21,13 @@ import { serverApi } from "../../../lib/config";
 import { Definer } from "../../../lib/Definer";
 import assert from "assert";
 import MemberApiService from "../../apiServices/memberApiService";
-import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert";
+import {
+    sweetErrorHandling,
+    sweetTopSmallSuccessAlert,
+} from "../../../lib/sweetAlert";
 import { useHistory } from "react-router-dom";
 import RestaurantApiService from "../../apiServices/restaurantApiService";
 import { SearchObj } from "../../../types/others";
-import Visibility from "@mui/icons-material/Visibility";
 //Redux
 import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "reselect";
@@ -34,15 +36,13 @@ import { Restaurant } from "../../../types/user";
 import { Dispatch } from "@reduxjs/toolkit";
 import { setTargetRestaurants } from "../../screens/RestaurantPage/slice";
 
-
-
 /** REDUX SLICE */
 const actionDispatch = (dispach: Dispatch) => ({
     setTargetRestaurants: (data: Restaurant[]) =>
         dispach(setTargetRestaurants(data)),
 });
 
-/** REDUX Selector */
+/** REDUX SELECTOR */
 
 const targetRestaurantsRetriever = createSelector(
     retrieveTargetRestaurants,
@@ -73,9 +73,9 @@ export function AllRestaurants() {
     }, [targetSearchObject]);
 
     /** HANDLERS */
-  const chosenRestaurantHandler = (id: string ) => {
-    history.push(`/restaurant/${id}`);
-  }
+    const chosenRestaurantHandler = (id: string) => {
+        history.push(`/restaurant/${id}`);
+    };
     const searchHandler = (category: string) => {
         targetSearchObject.page = 1;
         targetSearchObject.order = category;
@@ -162,7 +162,9 @@ export function AllRestaurants() {
                                 const image_path = `${serverApi}/${ele.mb_image}`;
                                 return (
                                     <Card
-                                    onClick={() => chosenRestaurantHandler(ele._id)}
+                                        onClick={() =>
+                                            chosenRestaurantHandler(ele._id)
+                                        }
                                         variant="outlined"
                                         sx={{
                                             minHeight: 410,
@@ -196,20 +198,20 @@ export function AllRestaurants() {
                                                 }}
                                             >
                                                 <Favorite
-                                                 onClick={(e) =>
-                                                    targetLikeHandler(
-                                                        e,
-                                                        ele._id
-                                                    )
-                                                }
-                                                style={{
-                                                    fill:
-                                                        ele?.me_liked &&
-                                                        ele?.me_liked[0]
-                                                            ?.my_favorite // Add a check for 'my_favorite' property
-                                                            ? "red"
-                                                            : "white",
-                                                }}
+                                                    onClick={(e) =>
+                                                        targetLikeHandler(
+                                                            e,
+                                                            ele._id
+                                                        )
+                                                    }
+                                                    style={{
+                                                        fill:
+                                                            ele?.me_liked &&
+                                                            ele?.me_liked[0]
+                                                                ?.my_favorite // Add a check for 'my_favorite' property
+                                                                ? "red"
+                                                                : "white",
+                                                    }}
                                                 />
                                             </IconButton>
                                         </CardOverflow>
@@ -291,11 +293,13 @@ export function AllRestaurants() {
                                                 }}
                                             >
                                                 <div
-                                                 ref={(element) =>
-                                                    (refs.current[ele._id] =
-                                                        element)
-                                                }
-                                                >{ele.mb_likes}</div>
+                                                    ref={(element) =>
+                                                        (refs.current[ele._id] =
+                                                            element)
+                                                    }
+                                                >
+                                                    {ele.mb_likes}
+                                                </div>
                                                 <FavoriteIcon
                                                     sx={{
                                                         fontSize: 20,
