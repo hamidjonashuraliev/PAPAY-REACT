@@ -7,14 +7,14 @@ export interface IMarginerProps {
   direction?: "horizontal" | "vertical";
   bg?: string;
 }
-
+{/*@ts-ignore*/}
 const HorizontalMargin = styled.span<IMarginerProps>`
   display: flex;
   min-width: ${({ width }) => `${width}px`};
   min-height: ${({ height }) => `${height}px`};
   background: ${({ bg }) => `${bg}`};
 `;
-
+{/*@ts-ignore*/}
 const VerticalMargin = styled.span<IMarginerProps>`
   display: flex;
   min-width: ${({ width }) => `${width}px`};

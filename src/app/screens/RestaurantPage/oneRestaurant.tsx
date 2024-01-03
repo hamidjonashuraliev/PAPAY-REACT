@@ -103,9 +103,22 @@ export function OneRestaurant() {
     const chosenRestaurantHandler = (id: string) => {
         setChosenRestaurantId(id);
         targetProductSearchObj.restaurant_mb_id = id;
-        setTargetProductSearchObj({...targetProductSearchObj});
+        setTargetProductSearchObj({ ...targetProductSearchObj });
         history.push(`/restaurant/${id}`);
     };
+
+    const searchCollectionHandler = (collection: string) => {
+        targetProductSearchObj.page = 1;
+        targetProductSearchObj.product_collection = collection;
+        setTargetProductSearchObj({ ...targetProductSearchObj });
+    };
+
+    const searchOrderHandler = (order: string) => {
+        targetProductSearchObj.page = 1;
+        targetProductSearchObj.order = order;
+        setTargetProductSearchObj({ ...targetProductSearchObj });
+    };
+
     return (
         <div className="single_restaurant">
             <Container>
@@ -146,7 +159,6 @@ export function OneRestaurant() {
                         </Box>
 
                         <Swiper
-                       
                             className="restaurant_avatars_wrapper"
                             slidesPerView={7}
                             centeredSlides={false}
@@ -157,11 +169,12 @@ export function OneRestaurant() {
                             }}
                         >
                             {randomRestaurants.map((ele: Restaurant) => {
-                                const image_path
-                                 = `${serverApi}/${ele.mb_image}`
+                                const image_path = `${serverApi}/${ele.mb_image}`;
                                 return (
                                     <SwiperSlide
-                                    onClick={() => chosenRestaurantHandler(ele._id)}
+                                        onClick={() =>
+                                            chosenRestaurantHandler(ele._id)
+                                        }
                                         style={{ cursor: "pointer" }}
                                         key={ele._id}
                                         className="restaurant_avatars"
@@ -189,16 +202,40 @@ export function OneRestaurant() {
                         sx={{ mt: "65px" }}
                     >
                         <Box className="dishs_filter_box">
-                            <Button variant="contained" color="secondary">
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                onClick={() =>
+                                    searchOrderHandler("createdAt")
+                                }
+                            >
                                 new
                             </Button>
-                            <Button variant="contained" color="secondary">
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                onClick={() =>
+                                    searchOrderHandler("product_price")
+                                }
+                            >
                                 price
                             </Button>
-                            <Button variant="contained" color="secondary">
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                onClick={() =>
+                                    searchOrderHandler("product_likes")
+                                }
+                            >
                                 likes
                             </Button>
-                            <Button variant="contained" color="secondary">
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                onClick={() =>
+                                    searchOrderHandler("product_views")
+                                }
+                            >
                                 views
                             </Button>
                         </Box>
@@ -214,19 +251,49 @@ export function OneRestaurant() {
                     >
                         <Stack className="dish_category_box">
                             <div className="dish_category_main">
-                                <Button variant="contained" color="secondary">
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={() =>
+                                        searchCollectionHandler("etc")
+                                    }
+                                >
                                     boshqa
                                 </Button>
-                                <Button variant="contained" color="secondary">
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={() =>
+                                        searchCollectionHandler("dessert")
+                                    }
+                                >
                                     desert
                                 </Button>
-                                <Button variant="contained" color="secondary">
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={() =>
+                                        searchCollectionHandler("drink")
+                                    }
+                                >
                                     ichimlik
                                 </Button>
-                                <Button variant="contained" color="secondary">
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={() =>
+                                        searchCollectionHandler("salad")
+                                    }
+                                >
                                     salad
                                 </Button>
-                                <Button variant="contained" color="secondary">
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={() =>
+                                        searchCollectionHandler("dish")
+                                    }
+                                >
                                     ovqatlar
                                 </Button>
                             </div>
