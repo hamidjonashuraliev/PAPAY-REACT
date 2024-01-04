@@ -12,7 +12,7 @@ class RestaurantApiService {
         this.path = serverApi;
     }
 
-    async getTopRestaurants() {
+    async getTopRestaurants(): Promise<Restaurant[]> {
         try {
             const url = "/restaurants?order=top&page=1&limit=4",
                 result = await axios.get(this.path + url, {
@@ -28,7 +28,8 @@ class RestaurantApiService {
             throw err;
         }
     }
-    async getRestaurants(data: SearchObj) {
+
+    async getRestaurants(data: SearchObj): Promise<Restaurant[]> {
         try {
             const url = `/restaurants?order=${data.order}&page=${data.page}&limit=${data.limit}`,
                 result = await axios.get(this.path + url, {
@@ -41,6 +42,23 @@ class RestaurantApiService {
             return restaurants;
         } catch (err: any) {
             console.log(`ERROR ::: getRestaurants ${err.message}`);
+            throw err;
+        }
+    }
+
+    async getChosenRestaurant(id: string) {
+        try {
+            const url = `/restaurants/${id}`,
+                result = await axios.get(this.path + url, {
+                    withCredentials: true,
+                });
+            assert.ok(result, Definer.general_err1);
+
+            console.log("state:", result.data.data);
+            const restaurant: Restaurant = result.data.data;
+            return restaurant;
+        } catch (err: any) {
+            console.log(`ERROR ::: getChosenRestaurant ${err.message}`);
             throw err;
         }
     }
