@@ -1,4 +1,5 @@
 import { boArticle } from "./boArticle";
+import { Order } from "./orders";
 import { Product } from "./product";
 import { Restaurant } from "./user";
 
@@ -10,7 +11,6 @@ export interface AppRootState {
 
 /** HOMEPAGE */
 export interface HomePageState {
-
     topRestaurants: Restaurant[];
     bestRestaurants: Restaurant[];
     trendProducts: Product[];
@@ -22,10 +22,15 @@ export interface HomePageState {
 /** RESTAURANT PAGE*/
 export interface RestaurantPageState {
     targetRestaurants: Restaurant[];
-    randomRestaurants: Restaurant[]; 
+    randomRestaurants: Restaurant[];
     chosenRestaurant: Restaurant | null;
     targetProducts: Product[];
     chosenProduct: Product | null;
+}
 
-
+/**ORDERS PAGE */
+export interface OrdersPageState {
+    pausedOrders: Order[];
+    processOrders: Order[];
+    finishedOrders: Order[];
 }
