@@ -1,65 +1,83 @@
+import { Box, Container, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Container, Stack, Box } from "@mui/material";
 import "../../../css/order.css";
-import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList/TabList";
+import Tab from "@mui/material/Tab";
+import Tablist from "@mui/lab/TabList";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import TextField from "@mui/material/TextField";
 
 import PausedOrders from "../../components/orders/pausedOrders";
 import ProcessOrders from "../../components/orders/processOrders";
 import FinishedOrders from "../../components/orders/finishedOrders";
-import Marginer from "../../components/marginer";
+import { Order } from "../../../types/orders";
+import TabList from "@mui/lab/TabList";
+//REDUX
+import { useDispatch, useSelector } from "react-redux";
+import {
+    retrieveChosenRestaurant,
+    retrieveRandomRestaurants,
+    retrieveTargetProducts,
+    retrieveTargetRestaurants,
+} from "../RestaurantPage/selector";
+import { createSelector } from "reselect";
+import { Restaurant } from "../../../types/user";
+import { serverApi } from "../../../lib/config";
+import { Dispatch } from "@reduxjs/toolkit";
+import {
+    setPausedOrders,
+    setProcessOrders,
+    setFinishedOrders,
+} from "../OrderPage/slice";
+import { useHistory, useParams } from "react-router-dom";
 
-export function OrderPage() {
-      /** INITIALIZATIONS */
+// REDUX SLICE
+const actionDispatch = (dispach: Dispatch) => ({
+    setPausedOrders: (data: Order[]) => dispach(setPausedOrders(data)),
+    setProcessOrders: (data: Order[]) => dispach(setProcessOrders(data)),
+    setFinishedOrders: (data: Order[]) => dispach(setFinishedOrders(data)),
+});
+
+export function OrdersPage() {
+    // INITIALIZATIONS
     const [value, setValue] = useState("1");
+    const { setPausedOrders, setProcessOrders, setFinishedOrders } =
+        actionDispatch(useDispatch());
 
-    /* HANDLERS */
+    useEffect(() => {}, []);
+
+    // HANDLERS
     const handleChange = (event: any, newValue: string) => {
-        // alert(newValue);
         setValue(newValue);
     };
 
     return (
-        <div className={"order_page"}>
+        <div className="order_page">
             <Container
                 maxWidth="lg"
                 style={{ display: "flex", flexDirection: "row" }}
-                sx={{ mt: "50px", mb: "50px" }}
+                sx={{ mt: "54px", mb: "54px" }}
             >
                 <Stack className={"order_left"}>
                     <TabContext value={value}>
-                        <Box className={"order_nav_frame"}>
+                        <Box className="order_nav_frame">
                             <Box
                                 sx={{ borderBottom: 1, borderColor: "divider" }}
                             >
-                                {/* <TabList
-                  onChange={handleChange}
-                  value={value}
-                  aria-label="basic tabs example"
-                > */}
-                                <Tab label="Buyurtmalarim" value={"1"} />
-                                <Tab
-                                    label="Jarayon"
-                                    value={"2"}
+                                <TabList
+                                    onChange={handleChange}
+                                    aria-label="basic tabs example"
                                     style={{
-                                        marginLeft: "100px",
-                                        marginRight: "100px",
+                                        display: "flex",
+                                        justifyContent: "space-between",
                                     }}
-                                />
-                                <Tab label="Yakunlangan" value={"3"} />
-                                {/* </TabList> */}
+                                >
+                                    <Tab label="Buyurtmalarim" value={"1"} />
+                                    <Tab label="Jarayon" value={"2"} />
+                                    <Tab label="Yakunlangan" value={"3"} />
+                                </TabList>
                             </Box>
                         </Box>
-                        <Marginer
-                            direction="horizontal"
-                            height="1"
-                            width="1"
-                            bg="white"
-                        />
-                        <Stack className={"order_main_content"}>
+                        <Stack className="order_main_content">
                             <PausedOrders />
                             <ProcessOrders />
                             <FinishedOrders />
@@ -67,105 +85,75 @@ export function OrderPage() {
                     </TabContext>
                 </Stack>
 
-                <Stack className={"order_right"}>
-                    <Box className={"order_info_box"}>
+                <Stack className="order_right">
+                    <Box className="order_info_box">
                         <Box
                             display={"flex"}
                             flexDirection={"column"}
                             alignItems={"center"}
-                            rowGap={"10px"}
                         >
-                            <div className={"order_user_img"}>
+                            <div className="order_user_img">
                                 <img
-                                    src={"/restaurant/burak.jpeg"}
-                                    style={{
-                                        width: "117px",
-                                        height: "112px",
-                                        borderRadius: "37px",
-                                    }}
-                                    className={"order_user_avatar"}
+                                    src="/auth/13.jpg"
+                                    className="order_user_avatar"
                                 />
-                                <div className={"order_user_abs"}>
-                                    <img src="/icons/User.svg" />
-                                </div>
+
+                                <Box className="order_user_icon_box">
+                                    <img
+                                        src="/icons/default_img.svg"
+                                        // className="order_user_avatar"
+                                    />
+                                </Box>
                             </div>
-                            <span className={"order_user_name"}>John</span>
-                            <span className="order_user_nick">
-                                Foydalanuvchi
-                            </span>
-                        </Box>
-                        <Box
-                            display={"flex"}
-                            flexDirection={"column"}
-                            sx={{ mt: "40px" }}
-                        >
-                            <Marginer
-                                direction="horizontal"
-                                height="2"
-                                width="333"
-                                bg="#A1A1A1"
+                            <h1 className="order_user_name">Bakha_sila</h1>
+                            <p className="order_user_prof">Foydalanuvchi</p>
+                            <img
+                                src="/icons/line_blue.png"
+                                style={{ marginTop: "40px", width: "100%" }}
                             />
-                            <Box className={"order_user_location"}>
-                                <LocationOnIcon />
-                                Gwangju
+                            <Box className={"order_user_address"}>
+                                <img src="/icons/location.svg" alt="" />
+                                <p className="spec_address_text">Seoul</p>
                             </Box>
                         </Box>
                     </Box>
 
-                    <Box className={"order_info_box_2"}>
+                    <Box className="payment_box">
+                        <div className="card_input">
+                            Card member 5243 0780 2042 2512
+                        </div>
+                        <Box className="twice_input">
+                            <div className="card_half_input">07/24</div>
+                            <div className="card_half_input">CVV:010</div>
+                        </Box>
+                        <div className="card_input">Lutfullaev Bakhodir</div>
                         <Box
                             display={"flex"}
-                            flexDirection={"column"}
+                            flexDirection={"row"}
                             alignItems={"center"}
-                            className={"box_2_start"}
                         >
-                            <TextField
-                                label="Card number : 5243 4090 2002 7495"
-                                variant="outlined"
-                                type="number"
-                                className="input_user input_color"
-                                style={{ backgroundColor: "#F5F5F5" }}
-                            />
-                            <Box display={"flex"} className={"input_user"}>
-                                <TextField
-                                    label="07 / 24"
-                                    variant="outlined"
-                                    type="number"
-                                    style={{ backgroundColor: "#F5F5F5" }}
-                                />
-                                <TextField
-                                    label="CVV : 010"
-                                    variant="outlined"
-                                    type="number"
-                                    style={{ backgroundColor: "#F5F5F5" }}
-                                />
-                            </Box>
-                            <TextField
-                                className="input_user input_color"
-                                label="Username"
-                                variant="outlined"
-                                style={{ backgroundColor: "#F5F5F5" }}
-                            />
-                        </Box>
-
-                        <Box sx={{ mt: "20px" }}>
                             <Box
                                 display={"flex"}
-                                alignItems={"center"}
-                                columnGap={"20px"}
+                                flexDirection={"row"}
+                                justifyContent={"space-between"}
+                                marginTop={"35px"}
                             >
-                                <div>
-                                    <img src="/icons/Western_union.svg" />
-                                </div>
-                                <div>
-                                    <img src="/icons/mastercart.svg" />
-                                </div>
-                                <div>
-                                    <img src="/icons/Paypal.svg" />
-                                </div>
-                                <div>
-                                    <img src="/icons/visa.svg" />
-                                </div>
+                                <img
+                                    src="/icons/western_union.svg"
+                                    style={{ width: "38px", height: "25px" }}
+                                />
+                                <img
+                                    src="/icons/paypal.svg"
+                                    style={{ width: "38px", height: "25px" }}
+                                />
+                                <img
+                                    src="/icons/western_union.svg"
+                                    style={{ width: "38px", height: "25px" }}
+                                />
+                                <img
+                                    src="/icons/paypal.svg"
+                                    style={{ width: "38px", height: "25px" }}
+                                />
                             </Box>
                         </Box>
                     </Box>

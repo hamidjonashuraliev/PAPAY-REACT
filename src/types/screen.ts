@@ -5,8 +5,10 @@ import { Restaurant } from "./user";
 
 /** REACT APP STATE */
 export interface AppRootState {
+    ordersPage: any;
     homePage: HomePageState;
     restaurantPage: RestaurantPageState;
+    orderPage: OrdersPageState
 }
 
 /** HOMEPAGE */

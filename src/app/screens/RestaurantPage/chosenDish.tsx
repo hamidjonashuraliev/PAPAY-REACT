@@ -123,7 +123,7 @@ export function ChosenDish() {
             modules={[FreeMode, Navigation, Thumbs]}
           >
 
-            {chosenProduct?.product_images.map((ele: string ) => {
+            {chosenProduct?.product_images.map((ele: string) => {
               const image_path = `${serverApi}/${ele}`;
               return (
                 <SwiperSlide>

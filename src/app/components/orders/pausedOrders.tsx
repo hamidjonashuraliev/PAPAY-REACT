@@ -1,75 +1,105 @@
+import { TabPanel } from "@mui/lab";
+import { Box, Button, Stack } from "@mui/material";
 import React from "react";
-import { Box, Stack } from "@mui/material";
-import Button from "@mui/material/Button";
-import TabPanel from "@mui/lab/TabPanel";
+//REDUX
+import { useSelector } from "react-redux";
+import { retrievePausedOrders } from "../../screens/OrderPage/selector";
+import { createSelector } from "reselect";
+import { Restaurant } from "../../../types/user";
+import { serverApi } from "../../../lib/config";
+import { Dispatch } from "@reduxjs/toolkit";
+import { useHistory, useParams } from "react-router-dom";
+
+// REDUX SELECTOR
+const pausedOrdersRetriever = createSelector(
+    retrievePausedOrders,
+    (pausedOrders) => ({
+        pausedOrders,
+    })
+);
 
 const pausedOrders = [
-    [1, 2],
-    [1, 2, 3, 4],
+    [1, 2, 3],
+    [1, 2, 3],
     [1, 2, 3],
 ];
 
-export default function PausedhedOrders(props: any) {
+export default function PausedOrders(props: any) {
+    /**INITIALIZATIONS */
+    //const { pausedOrders } = useSelector(pausedOrdersRetriever);
     return (
-        <TabPanel value="1">
+        <TabPanel value={"1"}>
             <Stack>
-                {pausedOrders?.map((order, index) => {
+                {pausedOrders?.map((order) => {
                     return (
-                        <Box className="order_main_box" key={index}>
-                            <Box className="order_box_scroll">
-                                {order.map((item, index) => {
-                                    const image_path = `/others/sandvich.jpg`;
+                        <Box className={"order_main_box"}>
+                            <Box className={"order_box_scroll"}>
+                                {order.map((item) => {
+                                    const image_path = `/dishes/dish_image4.jpeg`;
                                     return (
-                                        <Box
-                                            className={"ordersName_price"}
-                                            key={index}
-                                        >
+                                        <Box className={"ordersName_price"}>
                                             <img
                                                 src={image_path}
-                                                className={"orderDishing"}
+                                                className="orderDishImg"
                                             />
-                                            <p className="titleDish">
-                                                Sandwich
-                                            </p>
+                                            <p className="titleDish">jizzbiz</p>
                                             <Box className={"priceBox"}>
                                                 <p>$7</p>
-                                                <img src="/icons/Close.svg" />
+                                                <img
+                                                    src="/icons/Close.svg"
+                                                    alt=""
+                                                />
                                                 <p>3</p>
-                                                <img src="/icons/pause.svg" />
-                                                <p>$21</p>
+                                                <img src="/icons/Pause.svg" />
+                                                <p
+                                                    style={{
+                                                        marginLeft: "15px",
+                                                    }}
+                                                >
+                                                    $21
+                                                </p>
                                             </Box>
                                         </Box>
                                     );
                                 })}
                             </Box>
 
-                            <Box className="total_price_box black_solid">
-                                <Box className="boxTotal">
+                            <Box className={"total_price_box black_solid"}>
+                                <Box className={"boxTotal"}>
                                     <p>mahsulot narxi</p>
                                     <p>$21</p>
                                     <img
-                                        src="/icons/plus.svg"
-                                        style={{
-                                            marginLeft: "10px",
-                                            marginRight: "10px",
-                                        }}
+                                        src="/icons/Plus.svg"
+                                        style={{ marginLeft: "20px" }}
                                     />
-                                    <p>yetgazish xizmati</p>
+                                    <p>yetkazish xizmati</p>
                                     <p>$2</p>
                                     <img
-                                        src="/icons/pause.svg"
-                                        style={{
-                                            marginLeft: "10px",
-                                            marginRight: "10px",
-                                        }}
+                                        src="/icons/Pause.svg"
+                                        style={{ marginLeft: "20px" }}
                                     />
                                     <p>jami narx</p>
                                     <p>$23</p>
                                 </Box>
-                                <Button variant="contained" color="secondary">
-                                    bekor qilish
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    style={{
+                                        borderRadius: "10px",
+                                    }}
+                                >
+                                    Bekor qilish
                                 </Button>
-                                <Button variant="contained">to'lash</Button>
+
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    style={{
+                                        borderRadius: "10px",
+                                    }}
+                                >
+                                    To'lov qilish
+                                </Button>
                             </Box>
                         </Box>
                     );
