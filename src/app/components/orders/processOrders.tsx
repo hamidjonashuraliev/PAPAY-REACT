@@ -3,14 +3,14 @@ import { Box, Button, Stack } from "@mui/material";
 import React from "react";
 //REDUX
 import { useSelector } from "react-redux";
-import {
-  retrieveProcessOrder,
-} from "../../screens/OrderPage/slice";
+
 import { createSelector } from "reselect";
+import { retrieveProcessOrders } from "../../screens/OrderPage/selector";
+
 
 // REDUX SELECTOR
 const processOrderRetriever = createSelector(
-  retrieveProcessOrder,
+  retrieveProcessOrders,
   (processOrders) => ({
     processOrders,
   })

@@ -1,7 +1,7 @@
 export interface MeLiked {
-    mb_id: string,
-    Liked_ref_id: string,
-    my_favorite: boolean
+    mb_id: string;
+    Liked_ref_id: string;
+    my_favorite: boolean;
 }
 
 export interface Product {
@@ -17,7 +17,7 @@ export interface Product {
     product_size: string;
     product_volume: number;
     product_description: string;
-    product_images: string;
+    product_images: string[];
     product_likes: number;
     product_views: number;
     restaurant_mb_id: string;

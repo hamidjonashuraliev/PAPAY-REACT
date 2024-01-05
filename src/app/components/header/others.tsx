@@ -12,6 +12,7 @@ import {
 import { NavLink } from "react-router-dom";
 import React from "react";
 import { Logout } from "@mui/icons-material";
+import Basket from "./basket";
 
 export function NavbarOthers(props: any) {
     return (
@@ -70,20 +71,7 @@ export function NavbarOthers(props: any) {
                                 Yordam
                             </NavLink>
                         </Box>
-                        <Box className="hover-line">
-                            <IconButton
-                                aria-label="cart"
-                                id="basic-button"
-                                aria-controls={undefined}
-                                aria-haspopup="true"
-                                aria-expanded={undefined}
-                                // onClick={handleClick}
-                            >
-                                <Badge badgeContent={3} color="secondary">
-                                    <img src="/icons/shopping_cart.svg" />
-                                </Badge>
-                            </IconButton>
-                        </Box>
+                        <Basket />
                         {!props.verifiedMemberData ? (
                             <Box>
                                 <Button
@@ -109,7 +97,7 @@ export function NavbarOthers(props: any) {
                             />
                         )}
 
-<Menu
+                        <Menu
                             anchorEl={props.anchorEl}
                             open={props.open}
                             onClose={props.handleCloseLogOut}
@@ -150,9 +138,7 @@ export function NavbarOthers(props: any) {
                                 vertical: "bottom",
                             }}
                         >
-                            <MenuItem
-                            onClick={props.handleLogOutRequest}
-                            >
+                            <MenuItem onClick={props.handleLogOutRequest}>
                                 <ListItemIcon>
                                     <Logout
                                         fontSize="small"

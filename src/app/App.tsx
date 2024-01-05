@@ -5,7 +5,7 @@ import "../css/navbar.css";
 import "../css/footer.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-import { OrderPage } from "./screens/OrderPage";
+import { OrdersPage } from "./screens/OrderPage";
 import { MemberPage } from "./screens/MemberPage";
 import { HelpPage } from "./screens/HelpPage";
 import { LoginPage } from "./screens/LoginPage";
@@ -128,7 +128,7 @@ function App() {
                     <CommunityPage />
                 </Route>
                 <Route path="/orders">
-                    <OrderPage />
+                    <OrdersPage />
                 </Route>
                 <Route path="/member-page">
                     <MemberPage />
@@ -140,7 +140,7 @@ function App() {
                     <LoginPage />
                 </Route>
                 <Route path="/">
-                    {/* <Car /> */}
+                    
                     <HomePage />
                 </Route>
             </Switch>
