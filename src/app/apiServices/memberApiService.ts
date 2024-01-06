@@ -16,9 +16,10 @@ class MemberApiService {
             const result = await axios.post(this.path + "/login", login_data, {
                 withCredentials: true,
             });
-            console.log("state:", result.data.state);
+
             assert.ok(result?.data, Definer.general_err1);
             assert.ok(result?.data?.state != "fail", result?.data?.message);
+            console.log("state:", result.data.state);
 
             const member: Member = result.data.data;
             localStorage.setItem("member_data", JSON.stringify(member));
@@ -37,9 +38,9 @@ class MemberApiService {
                     withCredentials: true,
                 }
             );
-            console.log("state:", result.data.state);    
             assert.ok(result?.data, Definer.general_err1);
             assert.ok(result?.data?.state != "fail", result?.data?.message);
+            console.log("state:", result.data.state);
 
             const member: Member = result.data.data;
             localStorage.setItem("member_data", JSON.stringify(member));
@@ -74,8 +75,8 @@ class MemberApiService {
                 });
             assert.ok(result?.data, Definer.general_err1);
             assert.ok(result?.data?.state != "fail", result?.data?.message);
-
             console.log("state", result.data.data);
+
             const like_result: MemberLiken = result.data.data;
             return like_result;
         } catch (err: any) {
