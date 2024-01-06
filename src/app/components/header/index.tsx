@@ -177,6 +177,7 @@ export function NavbarHome(props: any) {
                         <Box sx={{ mt: "90px" }}>
                             {!props.verifiedMemberData ? (
                                 <Button
+                                    className="blue-btn"
                                     variant="contained"
                                     style={{
                                         width: "210px",

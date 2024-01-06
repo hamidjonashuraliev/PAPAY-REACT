@@ -1,4 +1,4 @@
-import { Box, Button, Stack } from "@mui/material";
+import { Box, Button, ButtonGroup, Stack } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import Menu from "@mui/material/Menu";
@@ -134,20 +134,31 @@ export default function Basket(props: any) {
                                         </p>
                                         <Box sx={{ minWidth: 120 }}>
                                             <div className="col-2">
-                                                <button
-                                                    onClick={() =>
-                                                        onRemove(item)
-                                                    }
-                                                    className="remove"
-                                                >
-                                                    -
-                                                </button>{" "}
-                                                <button
-                                                    onClick={() => onAdd(item)}
-                                                    className="add"
-                                                >
-                                                    +
-                                                </button>
+                                                <ButtonGroup>
+                                                    <Button
+                                                        onClick={() =>
+                                                            onRemove(item)
+                                                        }
+                                                        className="remove"
+                                                        sx={{ width: "20px" }}
+                                                    >
+                                                        <img
+                                                            src="/icons/minus.svg"
+                                                            alt=""
+                                                        />
+                                                    </Button>{" "}
+                                                    <Button
+                                                        onClick={() =>
+                                                            onAdd(item)
+                                                        }
+                                                        className="add"
+                                                    >
+                                                        <img
+                                                            src="/icons/plus.svg"
+                                                            alt=""
+                                                        />
+                                                    </Button>
+                                                </ButtonGroup>
                                             </div>
                                         </Box>
                                     </Box>
