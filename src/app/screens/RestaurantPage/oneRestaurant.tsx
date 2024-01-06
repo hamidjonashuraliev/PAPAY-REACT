@@ -69,7 +69,7 @@ const targetProductsRetriever = createSelector(
     })
 );
 
-export function OneRestaurant() {
+export function OneRestaurant(props: any) {
     /**INITIALIZATIONS */
     const history = useHistory();
     let { restaurant_id } = useParams<{ restaurant_id: string }>();
@@ -343,15 +343,22 @@ export function OneRestaurant() {
                             />
                           </Badge>
                         </Button>
-                        <Button className="view_btn">
-                          <img
-                            src="/icons/shopping-cart2.svg"
-                            style={{ display: "flex" }}
-                          />
-                        </Button>
                         <Button
-                          className="like_view_btn"
-                          style={{ right: "36px" }}
+                        className="view_btn"
+                        onClick={(e) => {
+                          props.onAdd(product);
+                          e.stopPropagation();
+                        }}
+                      >
+                        <img
+                          src="/icons/shopping_cart.svg"
+                          alt=""
+                          style={{ display: "flex" }}
+                        />
+                      </Button>
+                      <Button
+                        className="like_view_btn"
+                        style={{ right: "36px" }}
                         >
                           <Badge
                             badgeContent={product.product_views}
