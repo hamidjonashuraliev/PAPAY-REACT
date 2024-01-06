@@ -158,18 +158,18 @@ export function OneRestaurant(props: any) {
             <Container>
                 <Stack flexDirection={"column"} alignItems={"center"}>
                     <Stack className="avatar_big_box">
-                        <Box className={"top_text"}>
-                            <p>{chosenRestaurant?.mb_nick} Restaurant</p>
-                            <Box className={"Single_search_big_box"}>
-                                <form className="Single_search_form" action="">
+                        <Box className="top_text">
+                            <p> {chosenRestaurant?.mb_nick} Restaurant</p>
+                            <Box className="single_search_big_box">
+                                <form className="single_search_form" action="">
                                     <input
                                         type="search"
-                                        className="Single_searchInput"
-                                        name="Single_resSearch"
-                                        placeholder="Qiduruv"
+                                        className="single_searchInput"
+                                        name="single_resSearch"
+                                        placeholder="Qidiruv"
                                     />
                                     <Button
-                                        className="Single_button_search"
+                                        className="single_button_search"
                                         variant="contained"
                                         endIcon={<SearchIcon />}
                                     >
@@ -185,15 +185,16 @@ export function OneRestaurant(props: any) {
                         flexDirection={"row"}
                         sx={{ mt: "35px" }}
                     >
-                        <Box className={"prev_btn restaurant-prev"}>
+                        <Box className="prev_btn restaurant-prev">
                             <ArrowBackIosIcon
                                 sx={{ fontSize: 40 }}
                                 style={{ color: "white" }}
                             />
                         </Box>
+
                         <Swiper
                             className="restaurant_avatars_wrapper"
-                            slidesPerView={2}
+                            slidesPerView={7}
                             centeredSlides={false}
                             spaceBetween={30}
                             navigation={{
@@ -218,8 +219,9 @@ export function OneRestaurant(props: any) {
                                 );
                             })}
                         </Swiper>
+
                         <Box
-                            className={"next_btn restaurant-next"}
+                            className="next_btn restaurant-next"
                             style={{ color: "white" }}
                         >
                             <ArrowForwardIosIcon sx={{ fontSize: 40 }} />
@@ -233,7 +235,7 @@ export function OneRestaurant(props: any) {
                         width={"90%"}
                         sx={{ mt: "65px" }}
                     >
-                        <Box className={"dishs_filter_box"}>
+                        <Box className="dishs_filter_box">
                             <Button
                                 variant="contained"
                                 color="secondary"
@@ -329,9 +331,14 @@ export function OneRestaurant(props: any) {
                             </div>
                         </Stack>
 
-                        <Stack className={"dish_wrapper"}>
+                        <Stack className="dish_wrapper">
                             {targetProducts.map((product: Product) => {
-                                const image_path = `${serverApi}/${product.product_images[0]}`;
+                                const updatedData = JSON.parse(
+                                    JSON.stringify(
+                                        product.product_images[0]
+                                    ).replace(/\\/g, "/")
+                                );
+                                const image_path = `${serverApi}/${updatedData}`;
                                 const size_volume =
                                     product.product_collection === "drink"
                                         ? product.product_volume + "l"
@@ -339,11 +346,14 @@ export function OneRestaurant(props: any) {
 
                                 return (
                                     <Box
-                                        className={"dish_box"}
-                                        key={product._id}
+                                        className="dish_box"
+                                        key={`${product._id}`}
                                     >
                                         <Box
-                                            className={"dish_img"}
+                                            className="dish_img"
+                                            onClick={() =>
+                                                chosenDishHandler(product._id)
+                                            }
                                             sx={{
                                                 backgroundImage: `url(${image_path})`,
                                             }}
@@ -372,7 +382,7 @@ export function OneRestaurant(props: any) {
                                                                 }}
                                                             />
                                                         }
-                                                        id={product._id}
+                                                        id={`${product._id}`}
                                                         checkedIcon={
                                                             <Favorite
                                                                 style={{
@@ -393,6 +403,7 @@ export function OneRestaurant(props: any) {
                                                     />
                                                 </Badge>
                                             </Button>
+
                                             <Button
                                                 className="view_btn"
                                                 onClick={(e) => {
@@ -431,7 +442,7 @@ export function OneRestaurant(props: any) {
                                                 </Badge>
                                             </Button>
                                         </Box>
-                                        <Box className={"dish_desc"}>
+                                        <Box className="dish_desc">
                                             <span className="dish_title_text">
                                                 {product.product_name}
                                             </span>
@@ -450,7 +461,6 @@ export function OneRestaurant(props: any) {
 
             <div className="review_for_restaurant">
                 <Container
-                    maxWidth={"lg"}
                     sx={{ mt: "100px" }}
                     style={{
                         display: "flex",
@@ -462,8 +472,8 @@ export function OneRestaurant(props: any) {
                         Oshxona haqida fikrlar
                     </Box>
                     <Stack
-                        flexDirection={"row"}
                         display={"flex"}
+                        flexDirection={"row"}
                         justifyContent={"space-between"}
                         width={"100%"}
                     >
@@ -475,24 +485,30 @@ export function OneRestaurant(props: any) {
                                         justifyContent={"center"}
                                     >
                                         <img
-                                            src="/community/shoma.jpg"
-                                            className="review_img"
+                                            src={"/community/rayhon.jpg"}
+                                            className={"review_img"}
                                         />
                                     </Box>
-                                    <span className="review_name">
-                                        Eldor Shomurodov
+                                    <span className={"review_name"}>
+                                        Rayhon Asadova
                                     </span>
-                                    <span className="review_prof">
+                                    <span className={"review_prof"}>
                                         Foydalanuvchi
                                     </span>
-                                    <p className="{review_desc}">
-                                        Menga oshxonaning taomi juda yoqdi.
-                                        Hammaga tavsiya qilaman
+                                    <p className={"review_desc"}>
+                                        Menga bu oshxonaning taomi juda yoqadi.
+                                        Hammaga tafsiya qilaman!!!
                                     </p>
-                                    <div className="review_stars">
-                                        <StarIcon style={{ color: "F2BD57" }} />
-                                        <StarIcon style={{ color: "F2BD57" }} />
-                                        <StarIcon style={{ color: "F2BD57" }} />
+                                    <div className={"review_stars"}>
+                                        <StarIcon
+                                            style={{ color: "#F2BD57" }}
+                                        />
+                                        <StarIcon
+                                            style={{ color: "#F2BD57" }}
+                                        />
+                                        <StarIcon
+                                            style={{ color: "#F2BD57" }}
+                                        />
                                         <StarIcon
                                             style={{ color: "whitesmoke" }}
                                         />
@@ -512,7 +528,7 @@ export function OneRestaurant(props: any) {
                 <Stack
                     display={"flex"}
                     flexDirection={"row"}
-                    width={"90%"}
+                    width={"100%"}
                     sx={{ mt: "70px" }}
                 >
                     <Box
@@ -521,7 +537,7 @@ export function OneRestaurant(props: any) {
                             backgroundImage: `url(${serverApi}/${chosenRestaurant?.mb_image})`,
                         }}
                     >
-                        <div className="about_left_desc">
+                        <div className={"about_left_desc"}>
                             <span>{chosenRestaurant?.mb_nick}</span>
                             <p>{chosenRestaurant?.mb_description}</p>
                         </div>
@@ -534,11 +550,11 @@ export function OneRestaurant(props: any) {
                                     flexDirection={"row"}
                                     key={index}
                                 >
-                                    <div className="about_right_img"></div>
-                                    <div className="about_right_desc">
+                                    <div className={"about_right_img"}></div>
+                                    <div className={"about_right_desc"}>
                                         <span>Bizning mohir oshpazlarimiz</span>
-                                        <p>
-                                            Bizning oshpazlarimiz dunyo
+                                        <p className={"review_desc"}>
+                                            Bizning Oshpazlarimiz dunyo
                                             taniydigan oliygohlarda malaka
                                             oshirib kelishgan
                                         </p>
@@ -560,9 +576,9 @@ export function OneRestaurant(props: any) {
                     <Box className={"category_title"}>Oshxona Manzili</Box>
                     <iframe
                         style={{ marginTop: "60px" }}
-                        src="https://kko.to/g_tL675u9X"
-                        width={"1320"}
-                        height={"500"}
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2996.363734762081!2d69.2267250514616!3d41.322703307863044!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8b9a0a33281d%3A0x9c5015eab678e435!2z0KDQsNC50YXQvtC9!5e0!3m2!1sko!2skr!4v1655461169573!5m2!1sko!2skr"
+                        width="1320px"
+                        height="500"
                         referrerPolicy="no-referrer-when-downgrade"
                     ></iframe>
                 </Stack>
