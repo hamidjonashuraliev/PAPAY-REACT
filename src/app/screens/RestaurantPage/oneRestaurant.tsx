@@ -534,7 +534,10 @@ export function OneRestaurant(props: any) {
                     <Box
                         className={"about_left"}
                         sx={{
-                            backgroundImage: `url(${serverApi}/${chosenRestaurant?.mb_image})`,
+                            backgroundImage: `url(${serverApi}/${chosenRestaurant?.mb_image.replace(
+                                /\\/g,
+                                "/"
+                            )})`,
                         }}
                     >
                         <div className={"about_left_desc"}>
