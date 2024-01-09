@@ -1,27 +1,32 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
-import { Box, Container, Stack } from "@mui/material";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import TelegramIcon from "@mui/icons-material/Telegram";
-import YouTubeIcon from "@mui/icons-material/YouTube";
+import React, { useState, useEffect } from "react";
+import {
+    Box,
+    Container,
+    Pagination,
+    PaginationItem,
+    Stack,
+} from "@mui/material";
 import Button from "@mui/material/Button";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import SettingsIcon from "@mui/icons-material/Settings";
 import { MemberPosts } from "./memberPosts";
 import { MemberFollowers } from "./memberFollowers";
 import { MemberFollowing } from "./memberFollowing";
-import { MySettings } from "./mySettings";
-import Pagination from "@mui/material/Pagination";
-import PaginationItem from "@mui/material/PaginationItem";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import TuiEditor from "../../components/tuiEditor/TuiEditor";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import TelegramIcon from "@mui/icons-material/Telegram";
+import YouTubeIcon from "@mui/icons-material/YouTube";
 import TViewer from "../../components/tuiEditor/TViewer";
 import { Member } from "../../../types/user";
 import { BoArticle, SearchMemberArticlesObj } from "../../../types/boArticle";
+import { useHistory } from "react-router-dom";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import assert from "assert";
+import { Definer } from "../../../lib/Definer";
+
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "reselect";
@@ -36,13 +41,13 @@ import {
     retrieveChosenMemberBoArticles,
     retrieveChosenSingleBoArticle,
 } from "./selector";
+import CommunityApiService from "../../apiServices/communityApiService";
+import MemberAipService from "../../apiServices/memberApiService";
 import {
     sweetErrorHandling,
-    sweetFailureProvider,
+    sweetTopSmallSuccessAlert,
 } from "../../../lib/sweetAlert";
-import CommunityApiService from "../../apiServices/communityApiService";
-import MemberApiService from "../../apiServices/memberApiService";
-import { verifiedMemberData } from "../../apiServices/verify";
+import FollowApiService from "../../apiServices/followApiService";
 
 /** REDUX SLICE */
 const actionDispatch = (dispach: Dispatch) => ({
@@ -73,8 +78,10 @@ const chosenSingleBoArticleRetriever = createSelector(
     })
 );
 
-export function VisitMyPage(props: any) {
+export function VisitOtherPage(props: any) {
     /** INITIALIZATIONS */
+    const history = useHistory();
+    const { chosen_mb_id, chosen_art_id, verifieaMemberData } = props;
     const {
         setChosenMember,
         setchosenMemberBoArticles,
@@ -87,34 +94,53 @@ export function VisitMyPage(props: any) {
     const { chosenSingleBoArticle } = useSelector(
         chosenSingleBoArticleRetriever
     );
-    const [value, setValue] = React.useState("1");
+    const [value, setValue] = useState("1");
+    const [memberArticleSearchObj, setMemberArticleSearchObj] =
+        useState<SearchMemberArticlesObj>({
+            mb_id: chosen_mb_id,
+            page: 1,
+            limit: 5,
+        });
     const [articlesRebuild, setArticlesRebuild] = useState<Date>(new Date());
     const [followeRebuild, setFollowRebuild] = useState<boolean>(false);
-    const [memberArticleSearchObj, setMemberArticleSearchObj] =
-        useState<SearchMemberArticlesObj>({ mb_id: "none", page: 1, limit: 5 });
 
     useEffect(() => {
-        if (!verifiedMemberData) {
-            sweetFailureProvider("Please login first", true, true);
+        if (chosen_mb_id === verifieaMemberData?._id) {
+            history.push("/member-page");
         }
-
         const communityService = new CommunityApiService();
-        const memberService = new MemberApiService();
+        if (chosen_art_id) {
+            communityService
+                .getChosenArticles(chosen_mb_id)
+                .then((data) => {
+                    setChosenSingleBoArticle(data);
+                    setValue("4");
+                })
+                .catch((err) => console.log(err));
+        }
         communityService
             .getCommunityArticles(memberArticleSearchObj)
             .then((data) => setchosenMemberBoArticles(data))
             .catch((err) => console.log(err));
+    }, [memberArticleSearchObj, chosen_mb_id, articlesRebuild]);
 
+    useEffect(() => {
+        if (chosen_mb_id === verifieaMemberData?._id) {
+            history.push("/member-page");
+        }
+
+        const memberService = new MemberAipService();
         memberService
-            .getChosenMember(verifiedMemberData?._id)
+            .getChosenMember(memberArticleSearchObj.mb_id)
             .then((data) => setChosenMember(data))
             .catch((err) => console.log(err));
-    }, [memberArticleSearchObj, articlesRebuild, followeRebuild]);
+    }, [verifieaMemberData, chosen_mb_id, followeRebuild]);
 
     /** HANDLERS */
-    const handleChange = (event: any, newValue: string) => {
+    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setValue(newValue);
     };
+
     const handlePaginationChange = (event: any, value: number) => {
         memberArticleSearchObj.page = value;
         setMemberArticleSearchObj({ ...memberArticleSearchObj });
@@ -127,7 +153,7 @@ export function VisitMyPage(props: any) {
                 .getChosenArticles(art_id)
                 .then((data) => {
                     setChosenSingleBoArticle(data);
-                    setValue("5");
+                    setValue("4");
                 })
                 .catch((err) => console.log(err));
         } catch (err: any) {
@@ -136,29 +162,63 @@ export function VisitMyPage(props: any) {
         }
     };
 
+    const subscribeHandler = async (e: any) => {
+        try {
+            assert.ok(localStorage.getItem("member_data"), Definer.auth_err1);
+
+            const followService = new FollowApiService();
+            await followService.subscribe(e.target.value);
+            await sweetTopSmallSuccessAlert(
+                "subscribed successfully",
+                700,
+                false
+            );
+            setFollowRebuild(!followeRebuild);
+        } catch (err: any) {
+            console.log(err);
+            sweetErrorHandling(err).then();
+        }
+    };
+
+    const unsubscribeHandler = async (e: any) => {
+        try {
+            e.stopPropagation();
+            assert.ok(localStorage.getItem("member_data"), Definer.auth_err1);
+
+            const followService = new FollowApiService();
+            await followService.unsubscribe(e.target.value);
+
+            await sweetTopSmallSuccessAlert(
+                "unsubscribed successfully",
+                700,
+                false
+            );
+            setFollowRebuild(!followeRebuild);
+        } catch (err: any) {
+            console.log(err);
+            sweetErrorHandling(err).then();
+        }
+    };
+
     return (
-        <div className={"my_page"}>
-            <Container
-                style={{ display: "flex", flexDirection: "column" }}
-                maxWidth="lg"
-                sx={{ mt: "50px", mb: "50px" }}
-            >
-                <Stack className={"my_page_frame"}>
+        <div className="my_page">
+            <Container maxWidth="lg" sx={{ mt: "50px", mb: "50px" }}>
+                <Stack className="my_page_frame">
                     <TabContext value={value}>
                         <Box display={"flex"}>
-                            <Stack className={"my_page_left"}>
+                            <Stack className="my_page_left">
                                 <Box display="flex" flexDirection="column">
                                     <TabPanel value="1">
-                                        <Box className={"menu_name"}>
-                                            Mening Maqolalarim
+                                        <Box className="menu_name">
+                                            Maqolalar
                                         </Box>
-                                        <Box className={"menu_content"}>
+                                        <Box className="menu_content">
                                             <MemberPosts
-                                                chosenMemberBoArticles={
-                                                    chosenMemberBoArticles
-                                                }
                                                 renderChosenArticleHandler={
                                                     renderChosenArticleHandler
+                                                }
+                                                chosenMemberBoArticles={
+                                                    chosenMemberBoArticles
                                                 }
                                                 setArticlesRebuild={
                                                     setArticlesRebuild
@@ -208,12 +268,12 @@ export function VisitMyPage(props: any) {
                                         </Box>
                                         <Box className="menu_content">
                                             <MemberFollowers
+                                                actions_enabled={false}
                                                 followeRebuild={followeRebuild}
                                                 setFollowRebuild={
                                                     setFollowRebuild
                                                 }
-                                                actions_enabled={true}
-                                                mb_id={verifiedMemberData?._id}
+                                                mb_id={chosen_mb_id}
                                             />
                                         </Box>
                                     </TabPanel>
@@ -224,47 +284,24 @@ export function VisitMyPage(props: any) {
                                         </Box>
                                         <Box className="menu_content">
                                             <MemberFollowing
+                                                actions_enabled={false}
                                                 followeRebuild={followeRebuild}
                                                 setFollowRebuild={
                                                     setFollowRebuild
                                                 }
-                                                actions_enabled={true}
-                                                mb_id={verifiedMemberData?._id}
+                                                mb_id={chosen_mb_id}
                                             />
                                         </Box>
                                     </TabPanel>
 
                                     <TabPanel value="4">
                                         <Box className="menu_name">
-                                            Maqola yozish
-                                        </Box>
-                                        <Box className="write_content">
-                                            <TuiEditor />
-                                        </Box>
-                                    </TabPanel>
-
-                                    <TabPanel value="5">
-                                        <Box className="menu_name">
                                             Tanlangan Maqola
                                         </Box>
                                         <Box className="menu_content">
                                             <TViewer
-                                                renderChosenArticleHandler={
-                                                    renderChosenArticleHandler
-                                                }
-                                                chosenSingleBoArticle={
-                                                    chosenSingleBoArticle
-                                                }
+                                                text={`<h3>Hello Dean</h3>`}
                                             />
-                                        </Box>
-                                    </TabPanel>
-
-                                    <TabPanel value="6">
-                                        <Box className="menu_name">
-                                            Ma'lumotlarni o'zgartirish
-                                        </Box>
-                                        <Box className="menu_content">
-                                            <MySettings />
                                         </Box>
                                     </TabPanel>
                                 </Box>
@@ -272,12 +309,6 @@ export function VisitMyPage(props: any) {
 
                             <Stack className="my_page_right">
                                 <Box className="order_info_box">
-                                    <a
-                                        onClick={() => setValue("6")}
-                                        className="settings_btn"
-                                    >
-                                        <SettingsIcon />
-                                    </a>
                                     <Box
                                         display="flex"
                                         flexDirection="column"
@@ -285,11 +316,7 @@ export function VisitMyPage(props: any) {
                                     >
                                         <div className="order_user_img">
                                             <img
-                                                src={
-                                                    verifiedMemberData?.mb_image
-                                                        ? verifiedMemberData?.mb_image
-                                                        : "/auth/default_user.svg"
-                                                }
+                                                src="/auth/default_user_1.png"
                                                 style={{
                                                     width: "117px",
                                                     height: "112px",
@@ -298,24 +325,17 @@ export function VisitMyPage(props: any) {
                                                 className="order_user_avatar"
                                             />
                                             <div className="order_user_icon_box">
-                                                <img
-                                                    src={
-                                                        chosenMember?.mb_type ===
-                                                        "RESTAURANT"
-                                                            ? "/icons/restaurant.svg"
-                                                            : "/icons/User.svg"
-                                                    }
-                                                />
+                                                <img src="/icons/User.svg" />
                                             </div>
                                         </div>
-                                        <span className={"order_user_name"}>
+                                        <span className="order_user_name">
                                             {chosenMember?.mb_nick}
                                         </span>
-                                        <span className={"order_user_prof"}>
+                                        <span className="order_user_prof">
                                             {chosenMember?.mb_type}
                                         </span>
                                     </Box>
-                                    <Box className="user_media_box">
+                                    <Box className="user_media_box_1">
                                         <FacebookIcon />
                                         <InstagramIcon />
                                         <TelegramIcon />
@@ -335,7 +355,7 @@ export function VisitMyPage(props: any) {
 
                                     <span className="user_desc">
                                         {chosenMember?.mb_description ??
-                                            "Qo'shimcha ma'lumot kiritilmagan"}
+                                            " Qo'shimcha ma'lumot kiritilmagan"}
                                     </span>
 
                                     <Box
@@ -344,24 +364,60 @@ export function VisitMyPage(props: any) {
                                     >
                                         <TabList
                                             onChange={handleChange}
-                                            aria-label="lab API tabs example"
+                                            aria-label="Lab API tabs example"
                                         >
-                                            <Tab
-                                                style={{
-                                                    flexDirection: "column",
-                                                }}
-                                                value="4"
-                                                component={(e: any) => (
-                                                    <Button
-                                                        variant="contained"
-                                                        onClick={() =>
-                                                            setValue("4")
-                                                        }
-                                                    >
-                                                        Maqola yozish
-                                                    </Button>
-                                                )}
-                                            />
+                                            {chosenMember?.me_followed &&
+                                            chosenMember.me_followed[0]
+                                                ?.my_following ? (
+                                                <Tab
+                                                    style={{
+                                                        display: "flex",
+                                                        flexDirection: "column",
+                                                    }}
+                                                    value="4"
+                                                    component={(e: any) => (
+                                                        <Button
+                                                            value={
+                                                                chosenMember?._id
+                                                            }
+                                                            variant="contained"
+                                                            style={{
+                                                                backgroundColor:
+                                                                    "#f70909b8",
+                                                            }}
+                                                            onClick={
+                                                                unsubscribeHandler
+                                                            }
+                                                        >
+                                                            BEKOR QILISH
+                                                        </Button>
+                                                    )}
+                                                />
+                                            ) : (
+                                                <Tab
+                                                    style={{
+                                                        flexDirection: "column",
+                                                    }}
+                                                    value="4"
+                                                    component={(e: any) => (
+                                                        <Button
+                                                            value={
+                                                                chosenMember?._id
+                                                            }
+                                                            variant="contained"
+                                                            style={{
+                                                                backgroundColor:
+                                                                    "#30945e",
+                                                            }}
+                                                            onClick={
+                                                                subscribeHandler
+                                                            }
+                                                        >
+                                                            FOLLOW QILISH
+                                                        </Button>
+                                                    )}
+                                                />
+                                            )}
                                         </TabList>
                                     </Box>
                                 </Box>
@@ -377,7 +433,6 @@ export function VisitMyPage(props: any) {
                                                 display: "flex",
                                                 flexDirection: "column",
                                             }}
-                                            value="1"
                                             component={() => (
                                                 <div
                                                     className={`menu_box ${value}`}
@@ -386,16 +441,17 @@ export function VisitMyPage(props: any) {
                                                     }
                                                 >
                                                     <img src="/icons/post.svg" />
-                                                    <span>Maqolalarim</span>
+                                                    <span>Maqolalar</span>
                                                 </div>
                                             )}
+                                            value="1"
                                         />
+
                                         <Tab
                                             style={{
                                                 display: "flex",
                                                 flexDirection: "column",
                                             }}
-                                            value="2"
                                             component={() => (
                                                 <div
                                                     className={`menu_box ${value}`}
@@ -403,21 +459,18 @@ export function VisitMyPage(props: any) {
                                                         setValue("2")
                                                     }
                                                 >
-                                                    <img
-                                                        src={
-                                                            "/icons/followers.svg"
-                                                        }
-                                                    />
+                                                    <img src="/icons/followers.svg" />
                                                     <span>Followers</span>
                                                 </div>
                                             )}
+                                            value="2"
                                         />
+
                                         <Tab
                                             style={{
                                                 display: "flex",
                                                 flexDirection: "column",
                                             }}
-                                            value="3"
                                             component={() => (
                                                 <div
                                                     className={`menu_box ${value}`}
@@ -425,15 +478,11 @@ export function VisitMyPage(props: any) {
                                                         setValue("3")
                                                     }
                                                 >
-                                                    <img
-                                                        src={
-                                                            "/icons/following.svg"
-                                                        }
-                                                        alt="Following"
-                                                    />
+                                                    <img src="/icons/following.svg" />
                                                     <span>Following</span>
                                                 </div>
                                             )}
+                                            value="3"
                                         />
                                     </TabList>
                                 </Box>

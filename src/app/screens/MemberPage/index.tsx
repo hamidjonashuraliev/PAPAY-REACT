@@ -4,6 +4,7 @@ import { Route, Switch, useRouteMatch, useLocation } from "react-router-dom";
 import { VisitOtherPage } from "../MemberPage/VisitOtherPage";
 import { VisitMyPage } from "./VisitMyPage";
 import "../../../css/my_page.css";
+import { verifiedMemberData } from "../../apiServices/verify";
 
 function useQuery() {
     const { search } = useLocation();
@@ -23,10 +24,11 @@ export function MemberPage(props: any) {
         <div className="restaurant_page">
             <Switch>
                 <Route path={`${member.path}/other`}>
-                <VisitOtherPage
-            chosen_mb_id={chosen_mb_id}
-            chosen_art_id={chosen_art_id}
-          />
+                    <VisitOtherPage
+                        verifiedMemberData={verifiedMemberData}
+                        chosen_mb_id={chosen_mb_id}
+                        chosen_art_id={chosen_art_id}
+                    />
                 </Route>
 
                 <Route path={`${member.path}`}>
