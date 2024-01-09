@@ -48,6 +48,12 @@ export function TargetArticles(props: any) {
                 const artImage_url = article?.art_image
                     ? `${serverApi}/${article.art_image}`
                     : "/community/default_article.svg";
+
+                const mb_image_replace = article?.member_data?.mb_image;
+                const mb_image = mb_image_replace
+                    ? `${serverApi}/${article.member_data?.mb_image}`
+                    : "/auth/default_user.svg";
+
                 return (
                     <Link
                         className="all_article_box"
@@ -61,8 +67,9 @@ export function TargetArticles(props: any) {
                         <Box className={"all_article_container"}>
                             <Box alignItems="center" display="flex">
                                 <img
-                                    src={"/auth/default_user.svg"}
+                                    src={mb_image?.replace(/\\/g, "/")}
                                     width="35px"
+                                    height={"35px"}
                                     style={{
                                         borderRadius: "50%",
                                         backgroundSize: "cover",
