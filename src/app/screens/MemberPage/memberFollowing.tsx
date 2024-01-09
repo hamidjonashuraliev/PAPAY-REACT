@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Box, Stack } from "@mui/material";
+import { Box, Pagination, PaginationItem, Stack } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
+import FollowApiService from "../../apiServices/followApiService";
+import assert from "assert";
+import { Definer } from "../../../lib/Definer";
+import {
+  sweetErrorHandling,
+  sweetTopSmallSuccessAlert,
+} from "../../../lib/sweetAlert";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "reselect";

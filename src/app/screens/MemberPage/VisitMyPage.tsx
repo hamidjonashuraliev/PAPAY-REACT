@@ -89,6 +89,7 @@ export function VisitMyPage(props: any) {
     );
     const [value, setValue] = React.useState("1");
     const [articlesRebuild, setArticlesRebuild] = useState<Date>(new Date());
+    const [followeRebuild, setFollowRebuild] = useState<boolean>(false);
     const [memberArticleSearchObj, setMemberArticleSearchObj] =
         useState<SearchMemberArticlesObj>({ mb_id: "none", page: 1, limit: 5 });
 
@@ -103,11 +104,12 @@ export function VisitMyPage(props: any) {
             .getCommunityArticles(memberArticleSearchObj)
             .then((data) => setchosenMemberBoArticles(data))
             .catch((err) => console.log(err));
+
         memberService
             .getChosenMember(verifieaMemberData?._id)
             .then((data) => setChosenMember(data))
             .catch((err) => console.log(err));
-    }, [memberArticleSearchObj, articlesRebuild]);
+    }, [memberArticleSearchObj, articlesRebuild, followeRebuild, chosenMember]);
 
     /** HANDLERS */
     const handleChange = (event: any, newValue: string) => {
@@ -171,7 +173,11 @@ export function VisitMyPage(props: any) {
                                                 <Box className="bottom_box">
                                                     <Pagination
                                                         count={
-                                                            memberArticleSearchObj.limit
+                                                            memberArticleSearchObj.page >=
+                                                            3
+                                                                ? memberArticleSearchObj.page +
+                                                                  1
+                                                                : 3
                                                         }
                                                         page={
                                                             memberArticleSearchObj.page
@@ -202,20 +208,38 @@ export function VisitMyPage(props: any) {
                                         </Box>
                                         <Box className="menu_content">
                                             <MemberFollowers
+                                                followeRebuild={followeRebuild}
+                                                setFollowRebuild={
+                                                    setFollowRebuild
+                                                }
                                                 actions_enabled={true}
+                                                mb_id={
+                                                    props.verifieaMemberData
+                                                        ?._id
+                                                }
                                             />
                                         </Box>
                                     </TabPanel>
+
                                     <TabPanel value="3">
                                         <Box className="menu_name">
                                             Following
                                         </Box>
                                         <Box className="menu_content">
                                             <MemberFollowing
+                                                followeRebuild={followeRebuild}
+                                                setFollowRebuild={
+                                                    setFollowRebuild
+                                                }
                                                 actions_enabled={true}
+                                                mb_id={
+                                                    props.verifieaMemberData
+                                                        ?._id
+                                                }
                                             />
                                         </Box>
                                     </TabPanel>
+
                                     <TabPanel value="4">
                                         <Box className="menu_name">
                                             Maqola yozish
@@ -224,6 +248,7 @@ export function VisitMyPage(props: any) {
                                             <TuiEditor />
                                         </Box>
                                     </TabPanel>
+
                                     <TabPanel value="5">
                                         <Box className="menu_name">
                                             Tanlangan Maqola
@@ -239,6 +264,7 @@ export function VisitMyPage(props: any) {
                                             />
                                         </Box>
                                     </TabPanel>
+
                                     <TabPanel value="6">
                                         <Box className="menu_name">
                                             Ma'lumotlarni o'zgartirish
@@ -265,7 +291,11 @@ export function VisitMyPage(props: any) {
                                     >
                                         <div className="order_user_img">
                                             <img
-                                                src="/auth/default_user_1.png"
+                                                src={
+                                                    verifieaMemberData?.mb_image
+                                                        ? verifieaMemberData?.mb_image
+                                                        : "/auth/default_user.svg"
+                                                }
                                                 style={{
                                                     width: "117px",
                                                     height: "112px",
@@ -274,14 +304,21 @@ export function VisitMyPage(props: any) {
                                                 className="order_user_avatar"
                                             />
                                             <div className="order_user_icon_box">
-                                                <img src="/icons/User.svg" />
+                                                <img
+                                                    src={
+                                                        verifieaMemberData?.mb_type ===
+                                                        "RESTAURANT"
+                                                            ? "/icons/restaurant.svg"
+                                                            : "/icons/User.svg"
+                                                    }
+                                                />
                                             </div>
                                         </div>
                                         <span className={"order_user_name"}>
-                                            Tangirov Sirojiddin
+                                            {verifieaMemberData?.mb_nick}
                                         </span>
                                         <span className={"order_user_prof"}>
-                                            USER
+                                            {verifieaMemberData?.mb_type}
                                         </span>
                                     </Box>
                                     <Box className="user_media_box">
@@ -292,12 +329,21 @@ export function VisitMyPage(props: any) {
                                     </Box>
 
                                     <Box className="user_media_box_1">
-                                        <p className="follows">Followers: 2</p>
-                                        <p className="follows">Followings: 3</p>
+                                        <p className="follows">
+                                            Followers:{" "}
+                                            {
+                                                verifieaMemberData?.mb_subscriber_cnt
+                                            }
+                                        </p>
+                                        <p className="follows">
+                                            Followings:{" "}
+                                            {verifieaMemberData?.mb_follow_cnt}
+                                        </p>
                                     </Box>
 
                                     <span className="user_desc">
-                                        Qo'shimcha ma'lumot kiritilmagan
+                                        {verifieaMemberData?.mb_description ??
+                                            "Qo'shimcha ma'lumot kiritilmagan"}
                                     </span>
 
                                     <Box
