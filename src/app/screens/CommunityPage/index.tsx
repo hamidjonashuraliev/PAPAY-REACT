@@ -12,7 +12,7 @@ import PaginationItem from "@mui/material/PaginationItem";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CommunityApiService from "../../apiServices/communityApiService";
-import { boArticle, SearchArticlesObj } from "../../../types/boArticle";
+import { BoArticle, SearchArticlesObj } from "../../../types/boArticle";
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "reselect";
@@ -22,7 +22,7 @@ import { retrieveTargetBoArticles } from "./selector";
 
 /** REDUX SLICE */
 const actionDispatch = (dispach: Dispatch) => ({
-    setTargetBoArticles: (data: boArticle[]) =>
+    setTargetBoArticles: (data: BoArticle[]) =>
         dispach(setTargetBoArticles(data)),
 });
 

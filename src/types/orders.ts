@@ -18,7 +18,7 @@ export interface Order {
     mb_id: string;
     createdAt: Date;
     updatedAt: Date;
-    /**from aggregation */
+    /** from aggregations */
     order_items: OrderItem[];
     product_data: Product[];
 }

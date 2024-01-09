@@ -21,7 +21,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import TuiEditor from "../../components/tuiEditor/TuiEditor";
 import TViewer from "../../components/tuiEditor/TViewer";
 import { Member } from "../../../types/user";
-import { boArticle } from "../../../types/boArticle";
+import { BoArticle, SearchMemberArticlesObj } from "../../../types/boArticle";
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "reselect";
@@ -40,9 +40,9 @@ import {
 /** REDUX SLICE */
 const actionDispatch = (dispach: Dispatch) => ({
     setChosenMember: (data: Member) => dispach(setChosenMember(data)),
-    setchosenMemberBoArticles: (data: boArticle[]) =>
+    setchosenMemberBoArticles: (data: BoArticle[]) =>
         dispach(setchosenMemberBoArticles(data)),
-    setChosenSingleBoArticle: (data: boArticle) =>
+    setChosenSingleBoArticle: (data: BoArticle) =>
         dispach(setChosenSingleBoArticle(data)),
 });
 
@@ -244,7 +244,7 @@ export function VisitMyPage(props: any) {
                                                     flexDirection: "column",
                                                 }}
                                                 value="4"
-                                                component={(e) => (
+                                                component={(e: any) => (
                                                     <Button
                                                         variant="contained"
                                                         onClick={() =>

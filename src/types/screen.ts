@@ -1,4 +1,4 @@
-import { boArticle } from "./boArticle";
+import { BoArticle } from "./boArticle";
 import { Follower, Following } from "./follow";
 import { Order } from "./orders";
 import { Product } from "./product";
@@ -19,9 +19,9 @@ export interface HomePageState {
     topRestaurants: Restaurant[];
     bestRestaurants: Restaurant[];
     trendProducts: Product[];
-    bestBoArticles: boArticle[];
-    trendBoArticles: boArticle[];
-    newsBoArticles: boArticle[];
+    bestBoArticles: BoArticle[];
+    trendBoArticles: BoArticle[];
+    newsBoArticles: BoArticle[];
 }
 
 /** RESTAURANT PAGE*/
@@ -41,13 +41,13 @@ export interface OrdersPageState {
 }
 /** COMMUNITY PAGE */
 export interface CommunityPageState {
-    targetBoArticles: boArticle[];
+    targetBoArticles: BoArticle[];
 }
 /** MEMBER PAGE */
 export interface MemberPageState {
     chosenMember: Member | null;
-    chosenMemberBoArticles: boArticle[];
-    chosenSingleBoArticle: boArticle | null;
+    chosenMemberBoArticles: BoArticle[];
+    chosenSingleBoArticle: BoArticle | null;
     memberFollowers: Follower[];
     memberFollowings: Following[];
 }

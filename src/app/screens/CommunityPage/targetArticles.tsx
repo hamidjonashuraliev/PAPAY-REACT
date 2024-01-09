@@ -3,7 +3,7 @@ import { Box, Link, Stack } from "@mui/material";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { boArticle } from "../../../types/boArticle";
+import { BoArticle } from "../../../types/boArticle";
 import { serverApi } from "../../../lib/config";
 import {
     sweetErrorHandling,
@@ -44,7 +44,7 @@ export function TargetArticles(props: any) {
 
     return (
         <Stack>
-            {props.targetBoArticles?.map((article: boArticle) => {
+            {props.targetBoArticles?.map((article: BoArticle) => {
                 const artImage_url = article?.art_image
                     ? `${serverApi}/${article.art_image}`
                     : "/community/default_article.svg";
