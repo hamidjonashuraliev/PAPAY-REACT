@@ -36,6 +36,12 @@ import {
     retrieveChosenMemberBoArticles,
     retrieveChosenSingleBoArticle,
 } from "./selector";
+import {
+    sweetErrorHandling,
+    sweetFailureProvider,
+} from "../../../lib/sweetAlert";
+import MemberApiService from "../../apiServices/memberApiService";
+import CommunityApiService from "../../apiServices/communityApiService";
 
 /** REDUX SLICE */
 const actionDispatch = (dispach: Dispatch) => ({
@@ -68,6 +74,7 @@ const chosenSingleBoArticleRetriever = createSelector(
 
 export function VisitMyPage(props: any) {
     /** INITIALIZATIONS */
+    const { verifieaMemberData } = props;
     const {
         setChosenMember,
         setchosenMemberBoArticles,
@@ -81,10 +88,50 @@ export function VisitMyPage(props: any) {
         chosenSingleBoArticleRetriever
     );
     const [value, setValue] = React.useState("1");
+    const [articlesRebuild, setArticlesRebuild] = useState<Date>(new Date());
+    const [memberArticleSearchObj, setMemberArticleSearchObj] =
+        useState<SearchMemberArticlesObj>({ mb_id: "none", page: 1, limit: 5 });
+
+    useEffect(() => {
+        if (!localStorage.getItem("member_data")) {
+            sweetFailureProvider("Please login first", true, true);
+        }
+
+        const communityService = new CommunityApiService();
+        const memberService = new MemberApiService();
+        communityService
+            .getCommunityArticles(memberArticleSearchObj)
+            .then((data) => setchosenMemberBoArticles(data))
+            .catch((err) => console.log(err));
+        memberService
+            .getChosenMember(verifieaMemberData?._id)
+            .then((data) => setChosenMember(data))
+            .catch((err) => console.log(err));
+    }, [memberArticleSearchObj, articlesRebuild]);
 
     /** HANDLERS */
     const handleChange = (event: any, newValue: string) => {
         setValue(newValue);
+    };
+    const handlePaginationChange = (event: any, value: number) => {
+        memberArticleSearchObj.page = value;
+        setMemberArticleSearchObj({ ...memberArticleSearchObj });
+    };
+
+    const renderChosenArticleHandler = async (art_id: string) => {
+        try {
+            const communityService = new CommunityApiService();
+            communityService
+                .getChosenArticles(art_id)
+                .then((data) => {
+                    setChosenSingleBoArticle(data);
+                    setValue("5");
+                })
+                .catch((err) => console.log(err));
+        } catch (err: any) {
+            console.log(err);
+            sweetErrorHandling(err).then();
+        }
     };
 
     return (
@@ -104,7 +151,17 @@ export function VisitMyPage(props: any) {
                                             Mening Maqolalarim
                                         </Box>
                                         <Box className={"menu_content"}>
-                                            <MemberPosts />
+                                            <MemberPosts
+                                                chosenMemberBoArticles={
+                                                    chosenMemberBoArticles
+                                                }
+                                                renderChosenArticleHandler={
+                                                    renderChosenArticleHandler
+                                                }
+                                                setArticlesRebuild={
+                                                    setArticlesRebuild
+                                                }
+                                            />
                                             <Stack
                                                 sx={{ my: "40px" }}
                                                 direction="row"
@@ -113,8 +170,12 @@ export function VisitMyPage(props: any) {
                                             >
                                                 <Box className="bottom_box">
                                                     <Pagination
-                                                        count={3}
-                                                        page={1}
+                                                        count={
+                                                            memberArticleSearchObj.limit
+                                                        }
+                                                        page={
+                                                            memberArticleSearchObj.page
+                                                        }
                                                         renderItem={(item) => (
                                                             <PaginationItem
                                                                 components={{
@@ -126,6 +187,9 @@ export function VisitMyPage(props: any) {
                                                                 color="secondary"
                                                             />
                                                         )}
+                                                        onChange={
+                                                            handlePaginationChange
+                                                        }
                                                     />
                                                 </Box>
                                             </Stack>
@@ -166,7 +230,12 @@ export function VisitMyPage(props: any) {
                                         </Box>
                                         <Box className="menu_content">
                                             <TViewer
-                                                text={`<h3>Hello Dean</h3>`}
+                                                renderChosenArticleHandler={
+                                                    renderChosenArticleHandler
+                                                }
+                                                chosenSingleBoArticle={
+                                                    chosenSingleBoArticle
+                                                }
                                             />
                                         </Box>
                                     </TabPanel>
@@ -244,7 +313,7 @@ export function VisitMyPage(props: any) {
                                                     flexDirection: "column",
                                                 }}
                                                 value="4"
-                                                component={(e: any) => (
+                                                component={(e) => (
                                                     <Button
                                                         variant="contained"
                                                         onClick={() =>

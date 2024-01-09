@@ -4,20 +4,23 @@ import { Viewer } from "@toast-ui/react-editor";
 import { Box, Stack } from "@mui/material";
 
 const TViewer = (props: any) => {
-  // const editorRef = useRef();
-  // const editorRef = useRef<React.MutableRefObject<Viewer | null>>(null);
+    const editorRef = useRef();
 
-  const editorRef = useRef<Viewer | null>(null);
-  return (
-    <Stack
-      className={"twiever"}
-      sx={{ background: "white", mt: "36px", borderRadius: "10px" }}
-    >
-      <Box sx={{ m: "40px" }}>
-        <Viewer ref={editorRef} initialValue={props.text} />
-      </Box>
-    </Stack>
-  );
+    return (
+        <Stack
+            className={"twiever"}
+            sx={{ background: "white", mt: "36px", borderRadius: "10px" }}
+        >
+            <Box sx={{ m: "40px" }}>
+                <Viewer
+                    // @ts-ignore
+                    ref={editorRef}
+                    initialValue={props.chosenSingleBoArticle?.art_content}
+                    height={"600px"}
+                />
+            </Box>
+        </Stack>
+    );
 };
 
 export default TViewer;

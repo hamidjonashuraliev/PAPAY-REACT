@@ -34,11 +34,10 @@ export function MemberFollowers(props: any) {
     const { setMemberFollowers } = actionDispatch(useDispatch());
     const { memberFollowers } = useSelector(memberFollowersRetriever);
 
-      // setMemberFollowers
+    // setMemberFollowers
 
-   /** HANDLERS */
-   // subscribeHandler
-
+    /** HANDLERS */
+    // subscribeHandler
 
     return (
         <Stack>
