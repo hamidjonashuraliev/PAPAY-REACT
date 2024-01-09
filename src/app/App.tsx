@@ -16,7 +16,6 @@ import { CommunityPage } from "./screens/CommunityPage";
 import { RestaurantPage } from "./screens/RestaurantPage";
 import { Footer } from "./components/footer";
 import { HomePage } from "./screens/Homepage";
-import Car from "./screens/testCar";
 import AuthenticationModal from "./components/auth";
 import { Member } from "../types/user";
 import { serverApi } from "../lib/config";
@@ -40,6 +39,7 @@ function App() {
     const main_path = window.location.pathname;
     const [signUpOpen, setSignUpOpen] = useState(false);
     const [loginOpen, setLoginOpen] = useState(false);
+    const [ordersRebuild, setOrdersRebuild] = useState<Date>(new Date());
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -161,6 +161,7 @@ function App() {
                     onRemove={onRemove}
                     onDelete={onDelete}
                     onDeleteAll={onDeleteAll}
+                    setOrdersRebuild={setOrdersRebuild}
                 />
             ) : main_path.includes("/restaurant") ? (
                 <NavbarRestaurant
@@ -178,6 +179,7 @@ function App() {
                     onRemove={onRemove}
                     onDelete={onDelete}
                     onDeleteAll={onDeleteAll}
+                    setOrdersRebuild={setOrdersRebuild}
                 />
             ) : (
                 <NavbarOthers
@@ -206,7 +208,11 @@ function App() {
                     <CommunityPage />
                 </Route>
                 <Route path="/orders">
-                    <OrdersPage />
+                <OrdersPage
+            ordersRebuild={ordersRebuild}
+            setOrdersRebuild={setOrdersRebuild}
+            verifieaMemberData={verifieaMemberData}
+          />
                 </Route>
                 <Route path="/member-page">
                     <MemberPage />

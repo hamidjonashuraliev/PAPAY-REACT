@@ -5,10 +5,14 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { retrievePausedOrders } from "../../screens/OrderPage/selector";
 import { createSelector } from "reselect";
-import { Restaurant } from "../../../types/user";
+import { Order } from "../../../types/orders";
+import { Product } from "../../../types/product";
 import { serverApi } from "../../../lib/config";
-import { Dispatch } from "@reduxjs/toolkit";
-import { useHistory, useParams } from "react-router-dom";
+import {
+  sweetErrorHandling,
+  sweetFailureProvider,
+} from "../../../lib/sweetAlert";
+import OrderApiService from "../../apiServices/orderApiService";
 
 // REDUX SELECTOR
 const pausedOrdersRetriever = createSelector(
@@ -26,85 +30,122 @@ const pausedOrders = [
 
 export default function PausedOrders(props: any) {
     /**INITIALIZATIONS */
-    //const { pausedOrders } = useSelector(pausedOrdersRetriever);
+    const { pausedOrders } = useSelector(pausedOrdersRetriever);
+
+    /* HANDLERS */
+    const deleteOrderHandler = async (event: any) => {
+      try {
+        const order_id = event.target.value;
+        const data = { order_id: order_id, order_status: "DELETED" };
+        if (!localStorage.getItem("member_data")) {
+          sweetFailureProvider("Please login first", true);
+        }
+  
+        let confirmation = window.confirm(
+          "Buyurtmani bekor qilishni xohlaysizmi?"
+        );
+        if (confirmation) {
+          const orderService = new OrderApiService();
+          await orderService.updateOrderStatus(data);
+          props.setOrderRebuild(new Date());
+        }
+      } catch (err) {
+        console.log("deleteOrderHandler, ERROR: ", err);
+        sweetErrorHandling(err).then();
+      }
+    };
+  
+    const processOrderHandler = async (event: any) => {
+      try {
+        const order_id = event.target.value;
+        const data = { order_id: order_id, order_status: "PROCESS" };
+  
+        if (!localStorage.getItem("member_data")) {
+          sweetFailureProvider("Please login first", true);
+        }
+  
+        let confirmation = window.confirm(
+          "Buyurtmangizni To'lashni tasdiqlaysizmi?"
+        );
+        if (confirmation) {
+          const orderService = new OrderApiService();
+          await orderService.updateOrderStatus(data);
+          props.setOrderRebuild(new Date());
+        }
+      } catch (err) {
+        console.log("processOrderHandler, ERROR: ", err);
+        sweetErrorHandling(err).then();
+      }
+    };
+  
     return (
-        <TabPanel value={"1"}>
-            <Stack>
-                {pausedOrders?.map((order) => {
+      <TabPanel value="1">
+        <Stack>
+          {pausedOrders?.map((order: Order) => {
+            return (
+              <Box className="order_main_box">
+                <Box className="order_box_scroll">
+                  {order.order_items.map((item) => {
+                    const product: Product = order.product_data.filter(
+                      (ele) => ele._id === item.product_id
+                    )[0];
+                    const image_path = `${serverApi}/${product?.product_images[0].replace(
+                      /\\/g,
+                      "/"
+                    )}`;
                     return (
-                        <Box className={"order_main_box"}>
-                            <Box className={"order_box_scroll"}>
-                                {order.map((item) => {
-                                    const image_path = `/dishes/dish_image4.jpeg`;
-                                    return (
-                                        <Box className={"ordersName_price"}>
-                                            <img
-                                                src={image_path}
-                                                className="orderDishImg"
-                                            />
-                                            <p className="titleDish">jizzbiz</p>
-                                            <Box className={"priceBox"}>
-                                                <p>$7</p>
-                                                <img
-                                                    src="/icons/Close.svg"
-                                                    alt=""
-                                                />
-                                                <p>3</p>
-                                                <img src="/icons/Pause.svg" />
-                                                <p
-                                                    style={{
-                                                        marginLeft: "15px",
-                                                    }}
-                                                >
-                                                    $21
-                                                </p>
-                                            </Box>
-                                        </Box>
-                                    );
-                                })}
-                            </Box>
-
-                            <Box className={"total_price_box black_solid"}>
-                                <Box className={"boxTotal"}>
-                                    <p>mahsulot narxi</p>
-                                    <p>$21</p>
-                                    <img
-                                        src="/icons/Plus.svg"
-                                        style={{ marginLeft: "20px" }}
-                                    />
-                                    <p>yetkazish xizmati</p>
-                                    <p>$2</p>
-                                    <img
-                                        src="/icons/Pause.svg"
-                                        style={{ marginLeft: "20px" }}
-                                    />
-                                    <p>jami narx</p>
-                                    <p>$23</p>
-                                </Box>
-                                <Button
-                                    variant="contained"
-                                    color="secondary"
-                                    style={{
-                                        borderRadius: "10px",
-                                    }}
-                                >
-                                    Bekor qilish
-                                </Button>
-
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    style={{
-                                        borderRadius: "10px",
-                                    }}
-                                >
-                                    To'lov qilish
-                                </Button>
-                            </Box>
+                      <Box className={"ordersName_price"}>
+                        <img src={image_path} className={"orderDishing"} />
+                        <p className="titleDish">{product?.product_name}</p>
+                        <Box className={"priceBox"}>
+                          <p>${item.item_price}</p>
+                          <img src="/icons/Close.svg" />
+                          <p>{item.item_quantity}</p>
+                          <img src="/icons/pause.svg" />
+                          <p>${item.item_price * item.item_quantity}</p>
                         </Box>
+                      </Box>
                     );
-                })}
-            </Stack>
-        </TabPanel>
+                  })}
+                </Box>
+  
+                <Box className="total_price_box black_solid">
+                  <Box className="boxTotal">
+                    <p>mahsulot narxi</p>
+                    <p>${order.order_total_amount - order.order_delivery_cost}</p>
+                    <img
+                      src="/icons/plus.svg"
+                      style={{ marginLeft: "10px", marginRight: "10px" }}
+                    />
+                    <p>yetgazish xizmati</p>
+                    <p>${order.order_delivery_cost}</p>
+                    <img
+                      src="/icons/pause.svg"
+                      style={{ marginLeft: "10px", marginRight: "10px" }}
+                    />
+                    <p>jami narx</p>
+                    <p>${order.order_total_amount}</p>
+                  </Box>
+                  <Button
+                    value={order._id}
+                    onClick={deleteOrderHandler}
+                    variant="contained"
+                    color="secondary"
+                  >
+                    bekor qilish
+                  </Button>
+                  <Button
+                    value={order._id}
+                    onClick={processOrderHandler}
+                    variant="contained"
+                  >
+                    to'lash
+                  </Button>
+                </Box>
+              </Box>
+            );
+          })}
+        </Stack>
+      </TabPanel>
     );
-}
+  }

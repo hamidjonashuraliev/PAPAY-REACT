@@ -77,6 +77,7 @@ export function NavbarOthers(props: any) {
                             onRemove={props.onRemove}
                             onDelete={props.onDelete}
                             onDeleteAll={props.onDeleteAll}
+                            setOrdersRebuild={props.setOrdersRebuild}
                         />
                         {!props.verifiedMemberData ? (
                             <Box>

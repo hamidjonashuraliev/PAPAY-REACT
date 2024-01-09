@@ -43,7 +43,7 @@ export default function Basket(props: any) {
 
             onDeleteAll();
             handleClose();
-
+            props.setOrdersRebuild(new Date())
             history.push("/orders");
         } catch (err: any) {
             console.log(err);
