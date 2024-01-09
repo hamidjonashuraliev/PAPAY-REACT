@@ -29,10 +29,11 @@ import MemberApiService from "./apiServices/memberApiService";
 import "../app/apiServices/verify";
 import { CartItem } from "../types/others";
 import { Product } from "../types/product";
+import { verifiedMemberData } from "../app/apiServices/verify";
 
 function App() {
     /** INITIALIZATIONS */
-    const [verifieaMemberData, setVerifieaMemberData] = useState<Member | null>(
+    const [verifiedMemberData, setVerifiedMemberData] = useState<Member | null>(
         null
     );
     const [path, setPath] = useState();
@@ -58,7 +59,7 @@ function App() {
             member_data.mb_image = member_data.mb_image
                 ? `${serverApi}/${member_data.mb_image}`
                 : "/auth/default_user.svg";
-            setVerifieaMemberData(member_data);
+            setVerifiedMemberData(member_data);
         }
     }, [signUpOpen, loginOpen]);
 
@@ -155,7 +156,7 @@ function App() {
                     handleLogOutClick={handleLogOutClick}
                     handleCloseLogOut={handleCloseLogOut}
                     handleLogOutRequest={handleLogOutRequest}
-                    verifieaMemberData={verifieaMemberData}
+                    verifiedMemberData={verifiedMemberData}
                     cartItems={cartItems}
                     onAdd={onAdd}
                     onRemove={onRemove}
@@ -173,7 +174,7 @@ function App() {
                     handleLogOutClick={handleLogOutClick}
                     handleCloseLogOut={handleCloseLogOut}
                     handleLogOutRequest={handleLogOutRequest}
-                    verifieaMemberData={verifieaMemberData}
+                    verifiedMemberData={verifiedMemberData}
                     cartItems={cartItems}
                     onAdd={onAdd}
                     onRemove={onRemove}
@@ -191,7 +192,7 @@ function App() {
                     handleLogOutClick={handleLogOutClick}
                     handleCloseLogOut={handleCloseLogOut}
                     handleLogOutRequest={handleLogOutRequest}
-                    verifieaMemberData={verifieaMemberData}
+                    verifiedMemberData={verifiedMemberData}
                     cartItems={cartItems}
                     onAdd={onAdd}
                     onRemove={onRemove}
@@ -208,14 +209,14 @@ function App() {
                     <CommunityPage />
                 </Route>
                 <Route path="/orders">
-                <OrdersPage
-            ordersRebuild={ordersRebuild}
-            setOrdersRebuild={setOrdersRebuild}
-            verifieaMemberData={verifieaMemberData}
-          />
+                    <OrdersPage
+                        ordersRebuild={ordersRebuild}
+                        setOrdersRebuild={setOrdersRebuild}
+                        verifiedMemberData={verifiedMemberData}
+                    />
                 </Route>
                 <Route path="/member-page">
-                    <MemberPage />
+                    <MemberPage verifiedMemberData={verifiedMemberData} />
                 </Route>
                 <Route path="/help">
                     <HelpPage />

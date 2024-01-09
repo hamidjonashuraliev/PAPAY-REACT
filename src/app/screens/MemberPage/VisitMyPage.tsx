@@ -20,12 +20,69 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import TuiEditor from "../../components/tuiEditor/TuiEditor";
 import TViewer from "../../components/tuiEditor/TViewer";
+import { Member } from "../../../types/user";
+import { boArticle } from "../../../types/boArticle";
+// REDUX
+import { useDispatch, useSelector } from "react-redux";
+import { createSelector } from "reselect";
+import { Dispatch } from "@reduxjs/toolkit";
+import {
+    setChosenMember,
+    setchosenMemberBoArticles,
+    setChosenSingleBoArticle,
+} from "./slice";
+import {
+    retrieveChosenMember,
+    retrieveChosenMemberBoArticles,
+    retrieveChosenSingleBoArticle,
+} from "./selector";
+
+/** REDUX SLICE */
+const actionDispatch = (dispach: Dispatch) => ({
+    setChosenMember: (data: Member) => dispach(setChosenMember(data)),
+    setchosenMemberBoArticles: (data: boArticle[]) =>
+        dispach(setchosenMemberBoArticles(data)),
+    setChosenSingleBoArticle: (data: boArticle) =>
+        dispach(setChosenSingleBoArticle(data)),
+});
+
+/** REDUX SELECTOR */
+const chosenMemberRetriever = createSelector(
+    retrieveChosenMember,
+    (chosenMember) => ({
+        chosenMember,
+    })
+);
+const chosenMemberBoArticlesRetriever = createSelector(
+    retrieveChosenMemberBoArticles,
+    (chosenMemberBoArticles) => ({
+        chosenMemberBoArticles,
+    })
+);
+const chosenSingleBoArticleRetriever = createSelector(
+    retrieveChosenSingleBoArticle,
+    (chosenSingleBoArticle) => ({
+        chosenSingleBoArticle,
+    })
+);
 
 export function VisitMyPage(props: any) {
     /** INITIALIZATIONS */
+    const {
+        setChosenMember,
+        setchosenMemberBoArticles,
+        setChosenSingleBoArticle,
+    } = actionDispatch(useDispatch());
+    const { chosenMember } = useSelector(chosenMemberRetriever);
+    const { chosenMemberBoArticles } = useSelector(
+        chosenMemberBoArticlesRetriever
+    );
+    const { chosenSingleBoArticle } = useSelector(
+        chosenSingleBoArticleRetriever
+    );
     const [value, setValue] = React.useState("1");
 
-    // HANDLERS
+    /** HANDLERS */
     const handleChange = (event: any, newValue: string) => {
         setValue(newValue);
     };
@@ -109,7 +166,7 @@ export function VisitMyPage(props: any) {
                                         </Box>
                                         <Box className="menu_content">
                                             <TViewer
-                                                text={`<h3>Hello John</h3>`}
+                                                text={`<h3>Hello Dean</h3>`}
                                             />
                                         </Box>
                                     </TabPanel>
@@ -152,7 +209,7 @@ export function VisitMyPage(props: any) {
                                             </div>
                                         </div>
                                         <span className={"order_user_name"}>
-                                            ASHURALIEV HAMIDJON
+                                            Tangirov Sirojiddin
                                         </span>
                                         <span className={"order_user_prof"}>
                                             USER
@@ -187,7 +244,7 @@ export function VisitMyPage(props: any) {
                                                     flexDirection: "column",
                                                 }}
                                                 value="4"
-                                                component={() => (
+                                                component={(e) => (
                                                     <Button
                                                         variant="contained"
                                                         onClick={() =>
