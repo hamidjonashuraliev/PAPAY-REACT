@@ -28,7 +28,7 @@ import { createSelector } from "reselect";
 import { Dispatch } from "@reduxjs/toolkit";
 import {
     setChosenMember,
-    setchosenMemberBoArticles,
+    setChosenMemberBoArticles,
     setChosenSingleBoArticle,
 } from "./slice";
 import {
@@ -46,8 +46,8 @@ import CommunityApiService from "../../apiServices/communityApiService";
 /** REDUX SLICE */
 const actionDispatch = (dispach: Dispatch) => ({
     setChosenMember: (data: Member) => dispach(setChosenMember(data)),
-    setchosenMemberBoArticles: (data: BoArticle[]) =>
-        dispach(setchosenMemberBoArticles(data)),
+    setChosenMemberBoArticles: (data: BoArticle[]) =>
+        dispach(setChosenMemberBoArticles(data)),
     setChosenSingleBoArticle: (data: BoArticle) =>
         dispach(setChosenSingleBoArticle(data)),
 });
@@ -77,7 +77,7 @@ export function VisitMyPage(props: any) {
     const { verifieaMemberData } = props;
     const {
         setChosenMember,
-        setchosenMemberBoArticles,
+        setChosenMemberBoArticles,
         setChosenSingleBoArticle,
     } = actionDispatch(useDispatch());
     const { chosenMember } = useSelector(chosenMemberRetriever);
@@ -102,7 +102,7 @@ export function VisitMyPage(props: any) {
         const memberService = new MemberApiService();
         communityService
             .getCommunityArticles(memberArticleSearchObj)
-            .then((data) => setchosenMemberBoArticles(data))
+            .then((data) => setChosenMemberBoArticles(data))
             .catch((err) => console.log(err));
 
         memberService
@@ -359,7 +359,7 @@ export function VisitMyPage(props: any) {
                                                     flexDirection: "column",
                                                 }}
                                                 value="4"
-                                                component={(e) => (
+                                                component={(e: any) => (
                                                     <Button
                                                         variant="contained"
                                                         onClick={() =>

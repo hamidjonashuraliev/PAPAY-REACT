@@ -6,8 +6,8 @@ import FollowApiService from "../../apiServices/followApiService";
 import assert from "assert";
 import { Definer } from "../../../lib/Definer";
 import {
-  sweetErrorHandling,
-  sweetTopSmallSuccessAlert,
+    sweetErrorHandling,
+    sweetTopSmallSuccessAlert,
 } from "../../../lib/sweetAlert";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";

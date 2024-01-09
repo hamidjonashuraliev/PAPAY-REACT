@@ -11,7 +11,7 @@ import {
 } from "../../../lib/sweetAlert";
 import assert from "assert";
 import { Definer } from "../../../lib/Definer";
-import MemberAipService from "../../apiServices/memberApiService";
+import MemberApiService from "../../apiServices/memberApiService";
 import Checkbox from "@mui/material/Checkbox";
 import moment from "moment";
 
@@ -28,7 +28,7 @@ export function TargetArticles(props: any) {
         try {
             assert.ok(localStorage.getItem("member_data"), Definer.auth_err1);
 
-            const memberService = new MemberAipService();
+            const memberService = new MemberApiService();
             const like_result = await memberService.memberLikeTarget({
                 like_ref_id: e.target.id,
                 group_type: "community",

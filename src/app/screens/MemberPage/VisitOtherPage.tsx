@@ -1,27 +1,34 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Box, Container, Stack } from "@mui/material";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import TelegramIcon from "@mui/icons-material/Telegram";
+import YouTubeIcon from "@mui/icons-material/YouTube";
 import Button from "@mui/material/Button";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import SettingsIcon from "@mui/icons-material/Settings";
 import { MemberPosts } from "./memberPosts";
 import { MemberFollowers } from "./memberFollowers";
 import { MemberFollowing } from "./memberFollowing";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import TelegramIcon from "@mui/icons-material/Telegram";
-import YouTubeIcon from "@mui/icons-material/YouTube";
+import { MySettings } from "./mySettings";
+import Pagination from "@mui/material/Pagination";
+import PaginationItem from "@mui/material/PaginationItem";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import TuiEditor from "../../components/tuiEditor/TuiEditor";
 import TViewer from "../../components/tuiEditor/TViewer";
 import { Member } from "../../../types/user";
-import { BoArticle } from "../../../types/boArticle";
+import { BoArticle, SearchMemberArticlesObj } from "../../../types/boArticle";
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import { Dispatch } from "@reduxjs/toolkit";
 import {
     setChosenMember,
-    setchosenMemberBoArticles,
+    setChosenMemberBoArticles,
     setChosenSingleBoArticle,
 } from "./slice";
 import {
@@ -29,12 +36,19 @@ import {
     retrieveChosenMemberBoArticles,
     retrieveChosenSingleBoArticle,
 } from "./selector";
+import {
+    sweetErrorHandling,
+    sweetFailureProvider,
+} from "../../../lib/sweetAlert";
+import CommunityApiService from "../../apiServices/communityApiService";
+import MemberApiService from "../../apiServices/memberApiService";
+import { verifiedMemberData } from "../../apiServices/verify";
 
 /** REDUX SLICE */
 const actionDispatch = (dispach: Dispatch) => ({
     setChosenMember: (data: Member) => dispach(setChosenMember(data)),
     setchosenMemberBoArticles: (data: BoArticle[]) =>
-        dispach(setchosenMemberBoArticles(data)),
+        dispach(setChosenMemberBoArticles(data)),
     setChosenSingleBoArticle: (data: BoArticle) =>
         dispach(setChosenSingleBoArticle(data)),
 });
@@ -59,7 +73,7 @@ const chosenSingleBoArticleRetriever = createSelector(
     })
 );
 
-export function VisitOtherPage(props: any) {
+export function VisitMyPage(props: any) {
     /** INITIALIZATIONS */
     const {
         setChosenMember,
@@ -73,27 +87,118 @@ export function VisitOtherPage(props: any) {
     const { chosenSingleBoArticle } = useSelector(
         chosenSingleBoArticleRetriever
     );
-    const [value, setValue] = useState("1");
+    const [value, setValue] = React.useState("1");
+    const [articlesRebuild, setArticlesRebuild] = useState<Date>(new Date());
+    const [followeRebuild, setFollowRebuild] = useState<boolean>(false);
+    const [memberArticleSearchObj, setMemberArticleSearchObj] =
+        useState<SearchMemberArticlesObj>({ mb_id: "none", page: 1, limit: 5 });
+
+    useEffect(() => {
+        if (!verifiedMemberData) {
+            sweetFailureProvider("Please login first", true, true);
+        }
+
+        const communityService = new CommunityApiService();
+        const memberService = new MemberApiService();
+        communityService
+            .getCommunityArticles(memberArticleSearchObj)
+            .then((data) => setchosenMemberBoArticles(data))
+            .catch((err) => console.log(err));
+
+        memberService
+            .getChosenMember(verifiedMemberData?._id)
+            .then((data) => setChosenMember(data))
+            .catch((err) => console.log(err));
+    }, [memberArticleSearchObj, articlesRebuild, followeRebuild]);
 
     /** HANDLERS */
-    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    const handleChange = (event: any, newValue: string) => {
         setValue(newValue);
+    };
+    const handlePaginationChange = (event: any, value: number) => {
+        memberArticleSearchObj.page = value;
+        setMemberArticleSearchObj({ ...memberArticleSearchObj });
+    };
+
+    const renderChosenArticleHandler = async (art_id: string) => {
+        try {
+            const communityService = new CommunityApiService();
+            communityService
+                .getChosenArticles(art_id)
+                .then((data) => {
+                    setChosenSingleBoArticle(data);
+                    setValue("5");
+                })
+                .catch((err) => console.log(err));
+        } catch (err: any) {
+            console.log(err);
+            sweetErrorHandling(err).then();
+        }
     };
 
     return (
-        <div className="my_page">
-            <Container maxWidth="lg" sx={{ mt: "50px", mb: "50px" }}>
-                <Stack className="my_page_frame">
+        <div className={"my_page"}>
+            <Container
+                style={{ display: "flex", flexDirection: "column" }}
+                maxWidth="lg"
+                sx={{ mt: "50px", mb: "50px" }}
+            >
+                <Stack className={"my_page_frame"}>
                     <TabContext value={value}>
                         <Box display={"flex"}>
-                            <Stack className="my_page_left">
+                            <Stack className={"my_page_left"}>
                                 <Box display="flex" flexDirection="column">
                                     <TabPanel value="1">
-                                        <Box className="menu_name">
-                                            Maqolalar
+                                        <Box className={"menu_name"}>
+                                            Mening Maqolalarim
                                         </Box>
-                                        <Box className="menu_content">
-                                            <MemberPosts />
+                                        <Box className={"menu_content"}>
+                                            <MemberPosts
+                                                chosenMemberBoArticles={
+                                                    chosenMemberBoArticles
+                                                }
+                                                renderChosenArticleHandler={
+                                                    renderChosenArticleHandler
+                                                }
+                                                setArticlesRebuild={
+                                                    setArticlesRebuild
+                                                }
+                                            />
+                                            <Stack
+                                                sx={{ my: "40px" }}
+                                                direction="row"
+                                                alignItems="center"
+                                                justifyContent="center"
+                                            >
+                                                <Box className="bottom_box">
+                                                    <Pagination
+                                                        count={
+                                                            memberArticleSearchObj.page >=
+                                                            3
+                                                                ? memberArticleSearchObj.page +
+                                                                  1
+                                                                : 3
+                                                        }
+                                                        page={
+                                                            memberArticleSearchObj.page
+                                                        }
+                                                        renderItem={(item) => (
+                                                            <PaginationItem
+                                                                components={{
+                                                                    previous:
+                                                                        ArrowBackIcon,
+                                                                    next: ArrowForwardIcon,
+                                                                }}
+                                                                {...item}
+                                                                color="secondary"
+                                                            />
+                                                        )}
+                                                        onChange={
+                                                            handlePaginationChange
+                                                        }
+                                                    />
+                                                </Box>
+                                            </Stack>
                                         </Box>
                                     </TabPanel>
 
@@ -103,7 +208,12 @@ export function VisitOtherPage(props: any) {
                                         </Box>
                                         <Box className="menu_content">
                                             <MemberFollowers
-                                                actions_enabled={false}
+                                                followeRebuild={followeRebuild}
+                                                setFollowRebuild={
+                                                    setFollowRebuild
+                                                }
+                                                actions_enabled={true}
+                                                mb_id={verifiedMemberData?._id}
                                             />
                                         </Box>
                                     </TabPanel>
@@ -114,19 +224,47 @@ export function VisitOtherPage(props: any) {
                                         </Box>
                                         <Box className="menu_content">
                                             <MemberFollowing
-                                                actions_enabled={false}
+                                                followeRebuild={followeRebuild}
+                                                setFollowRebuild={
+                                                    setFollowRebuild
+                                                }
+                                                actions_enabled={true}
+                                                mb_id={verifiedMemberData?._id}
                                             />
                                         </Box>
                                     </TabPanel>
 
                                     <TabPanel value="4">
                                         <Box className="menu_name">
+                                            Maqola yozish
+                                        </Box>
+                                        <Box className="write_content">
+                                            <TuiEditor />
+                                        </Box>
+                                    </TabPanel>
+
+                                    <TabPanel value="5">
+                                        <Box className="menu_name">
                                             Tanlangan Maqola
                                         </Box>
                                         <Box className="menu_content">
                                             <TViewer
-                                                text={`<h3>Hello Dean</h3>`}
+                                                renderChosenArticleHandler={
+                                                    renderChosenArticleHandler
+                                                }
+                                                chosenSingleBoArticle={
+                                                    chosenSingleBoArticle
+                                                }
                                             />
+                                        </Box>
+                                    </TabPanel>
+
+                                    <TabPanel value="6">
+                                        <Box className="menu_name">
+                                            Ma'lumotlarni o'zgartirish
+                                        </Box>
+                                        <Box className="menu_content">
+                                            <MySettings />
                                         </Box>
                                     </TabPanel>
                                 </Box>
@@ -134,6 +272,12 @@ export function VisitOtherPage(props: any) {
 
                             <Stack className="my_page_right">
                                 <Box className="order_info_box">
+                                    <a
+                                        onClick={() => setValue("6")}
+                                        className="settings_btn"
+                                    >
+                                        <SettingsIcon />
+                                    </a>
                                     <Box
                                         display="flex"
                                         flexDirection="column"
@@ -141,7 +285,11 @@ export function VisitOtherPage(props: any) {
                                     >
                                         <div className="order_user_img">
                                             <img
-                                                src="/auth/default_user_1.png"
+                                                src={
+                                                    verifiedMemberData?.mb_image
+                                                        ? verifiedMemberData?.mb_image
+                                                        : "/auth/default_user.svg"
+                                                }
                                                 style={{
                                                     width: "117px",
                                                     height: "112px",
@@ -150,17 +298,24 @@ export function VisitOtherPage(props: any) {
                                                 className="order_user_avatar"
                                             />
                                             <div className="order_user_icon_box">
-                                                <img src="/icons/User.svg" />
+                                                <img
+                                                    src={
+                                                        chosenMember?.mb_type ===
+                                                        "RESTAURANT"
+                                                            ? "/icons/restaurant.svg"
+                                                            : "/icons/User.svg"
+                                                    }
+                                                />
                                             </div>
                                         </div>
-                                        <span className="order_user_name">
-                                            Martin Robertson
+                                        <span className={"order_user_name"}>
+                                            {chosenMember?.mb_nick}
                                         </span>
-                                        <span className="order_user_prof">
-                                            USER
+                                        <span className={"order_user_prof"}>
+                                            {chosenMember?.mb_type}
                                         </span>
                                     </Box>
-                                    <Box className="user_media_box_1">
+                                    <Box className="user_media_box">
                                         <FacebookIcon />
                                         <InstagramIcon />
                                         <TelegramIcon />
@@ -168,14 +323,19 @@ export function VisitOtherPage(props: any) {
                                     </Box>
 
                                     <Box className="user_media_box_1">
-                                        <p className="follows">Followers: 10</p>
                                         <p className="follows">
-                                            Followings: 10
+                                            Followers:{" "}
+                                            {chosenMember?.mb_subscriber_cnt}
+                                        </p>
+                                        <p className="follows">
+                                            Followings:{" "}
+                                            {chosenMember?.mb_follow_cnt}
                                         </p>
                                     </Box>
 
                                     <span className="user_desc">
-                                        Qo'shimcha ma'lumot kiritilmagan
+                                        {chosenMember?.mb_description ??
+                                            "Qo'shimcha ma'lumot kiritilmagan"}
                                     </span>
 
                                     <Box
@@ -184,46 +344,24 @@ export function VisitOtherPage(props: any) {
                                     >
                                         <TabList
                                             onChange={handleChange}
-                                            aria-label="Lab API tabs example"
+                                            aria-label="lab API tabs example"
                                         >
-                                            {true ? (
-                                                <Tab
-                                                    style={{
-                                                        display: "flex",
-                                                        flexDirection: "column",
-                                                    }}
-                                                    value="4"
-                                                    component={(e: any) => (
-                                                        <Button
-                                                            variant="contained"
-                                                            style={{
-                                                                backgroundColor:
-                                                                    "#f70909b8",
-                                                            }}
-                                                        >
-                                                            BEKOR QILISH
-                                                        </Button>
-                                                    )}
-                                                />
-                                            ) : (
-                                                <Tab
-                                                    style={{
-                                                        flexDirection: "column",
-                                                    }}
-                                                    value="4"
-                                                    component={(e: any) => (
-                                                        <Button
-                                                            variant="contained"
-                                                            style={{
-                                                                backgroundColor:
-                                                                    "#30945e",
-                                                            }}
-                                                        >
-                                                            FOLLOW QILISH
-                                                        </Button>
-                                                    )}
-                                                />
-                                            )}
+                                            <Tab
+                                                style={{
+                                                    flexDirection: "column",
+                                                }}
+                                                value="4"
+                                                component={(e: any) => (
+                                                    <Button
+                                                        variant="contained"
+                                                        onClick={() =>
+                                                            setValue("4")
+                                                        }
+                                                    >
+                                                        Maqola yozish
+                                                    </Button>
+                                                )}
+                                            />
                                         </TabList>
                                     </Box>
                                 </Box>
@@ -239,6 +377,7 @@ export function VisitOtherPage(props: any) {
                                                 display: "flex",
                                                 flexDirection: "column",
                                             }}
+                                            value="1"
                                             component={() => (
                                                 <div
                                                     className={`menu_box ${value}`}
@@ -247,17 +386,16 @@ export function VisitOtherPage(props: any) {
                                                     }
                                                 >
                                                     <img src="/icons/post.svg" />
-                                                    <span>Maqolalar</span>
+                                                    <span>Maqolalarim</span>
                                                 </div>
                                             )}
-                                            value="1"
                                         />
-
                                         <Tab
                                             style={{
                                                 display: "flex",
                                                 flexDirection: "column",
                                             }}
+                                            value="2"
                                             component={() => (
                                                 <div
                                                     className={`menu_box ${value}`}
@@ -265,18 +403,21 @@ export function VisitOtherPage(props: any) {
                                                         setValue("2")
                                                     }
                                                 >
-                                                    <img src="/icons/followers.svg" />
+                                                    <img
+                                                        src={
+                                                            "/icons/followers.svg"
+                                                        }
+                                                    />
                                                     <span>Followers</span>
                                                 </div>
                                             )}
-                                            value="2"
                                         />
-
                                         <Tab
                                             style={{
                                                 display: "flex",
                                                 flexDirection: "column",
                                             }}
+                                            value="3"
                                             component={() => (
                                                 <div
                                                     className={`menu_box ${value}`}
@@ -284,11 +425,15 @@ export function VisitOtherPage(props: any) {
                                                         setValue("3")
                                                     }
                                                 >
-                                                    <img src="/icons/following.svg" />
+                                                    <img
+                                                        src={
+                                                            "/icons/following.svg"
+                                                        }
+                                                        alt="Following"
+                                                    />
                                                     <span>Following</span>
                                                 </div>
                                             )}
-                                            value="3"
                                         />
                                     </TabList>
                                 </Box>

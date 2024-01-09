@@ -1,6 +1,6 @@
+import { serverApi } from "../../lib/config";
 import axios from "axios";
 import assert from "assert";
-import { serverApi } from "../../lib/config";
 import { Definer } from "../../lib/Definer";
 import { Member } from "../../types/user";
 import { MemberLiken } from "../../types/others";
@@ -94,7 +94,7 @@ class MemberApiService {
     public async getChosenMember(id: string) {
         try {
             const url = `/member/${id}`,
-                result = await axios.post(this.path + url, {
+                result = await axios.get(this.path + url, {
                     withCredentials: true,
                 });
 
@@ -110,4 +110,5 @@ class MemberApiService {
         }
     }
 }
+
 export default MemberApiService;

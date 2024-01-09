@@ -1,7 +1,7 @@
 import React from "react";
 import { Container } from "@mui/material";
 import { Route, Switch, useRouteMatch, useLocation } from "react-router-dom";
-import { VisitOtherPage } from "./VisitOtherPage";
+import { VisitOtherPage } from "../MemberPage/VisitOtherPage";
 import { VisitMyPage } from "./VisitMyPage";
 import "../../../css/my_page.css";
 
@@ -23,15 +23,14 @@ export function MemberPage(props: any) {
         <div className="restaurant_page">
             <Switch>
                 <Route path={`${member.path}/other`}>
-                    <VisitOtherPage
-                        verifieaMemberData={verifieaMemberData}
-                        chosen_mb_id={chosen_mb_id}
-                        chosen_art_id={chosen_art_id}
-                    />
+                <VisitOtherPage
+            chosen_mb_id={chosen_mb_id}
+            chosen_art_id={chosen_art_id}
+          />
                 </Route>
 
                 <Route path={`${member.path}`}>
-                    <VisitMyPage verifieaMemberData={verifieaMemberData} />
+                    <VisitMyPage />
                 </Route>
             </Switch>
         </div>
