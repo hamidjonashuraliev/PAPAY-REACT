@@ -49,20 +49,20 @@ export function OrdersPage(props: any) {
     const verifieaMemberData: Member | null = props.verifieaMemberData;
 
     useEffect(() => {
-        const orderService = new OrderApiService();
-        orderService
-          .getMyOrder("paused")
-          .then((data: Order[]) => setPausedOrders(data))
-          .catch((err: any) => console.log(err));
-        orderService
-          .getMyOrder("process")
-          .then((data: Order[]) => setProcessOrders(data))
-          .catch((err: any) => console.log(err));
-        orderService
-          .getMyOrder("finished")
-          .then((data: Order[]) => setFinishedOrders(data))
-          .catch((err: any) => console.log(err));
-      }, [props.orderRebuild]);
+      const orderService = new OrderApiService();
+      orderService
+        .getMyOrders("paused")
+        .then((data) => setPausedOrders(data))
+        .catch((err) => console.log(err));
+      orderService
+        .getMyOrders("process")
+        .then((data) => setProcessOrders(data))
+        .catch((err) => console.log(err));
+      orderService
+        .getMyOrders("finished")
+        .then((data) => setFinishedOrders(data))
+        .catch((err) => console.log(err));
+    }, [props.orderRebuild]);
   
   /* HANDLERS */
   const handleChange = (event: any, newValue: string) => {

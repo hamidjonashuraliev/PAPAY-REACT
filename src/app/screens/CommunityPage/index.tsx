@@ -11,6 +11,29 @@ import TabPanel from "@mui/lab/TabPanel";
 import PaginationItem from "@mui/material/PaginationItem";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import CommunityApiService from "../../apiServices/communityApiService";
+import { boArticle, SearchArticlesObj } from "../../../types/boArticle";
+// REDUX
+import { useDispatch, useSelector } from "react-redux";
+import { createSelector } from "reselect";
+import { Dispatch } from "@reduxjs/toolkit";
+import { setTargetBoArticles } from "./slice";
+import { retrieveTargetBoArticles } from "./selector";
+
+/** REDUX SLICE */
+const actionDispatch = (dispach: Dispatch) => ({
+  setTargetBoArticles: (data: boArticle[]) =>
+    dispach(setTargetBoArticles(data)),
+});
+
+/** REDUX SELECTOR */
+const targetBoArticlesRetriever = createSelector(
+  retrieveTargetBoArticles,
+  (targetBoArticles) => ({
+    targetBoArticles,
+  })
+);
+
 
 export function CommunityPage(props: any) {
    /** INITIALIZATIONS */
@@ -64,29 +87,29 @@ export function CommunityPage(props: any) {
                                 <Box className="article_main">
                                     <TabPanel value="1">
                                         <TargetArticles
-                                            targetBoArticles={[1, 2, 3]}
+                                            targetBoArticles={[TargetArticles]}
                                         />
                                     </TabPanel>
                                     <TabPanel value="2">
                                         <TargetArticles
-                                            targetBoArticles={[1, 2, 3, 4]}
+                                            targetBoArticles={[TargetArticles]}
                                         />
                                     </TabPanel>
                                     <TabPanel value="3">
                                         <TargetArticles
-                                            targetBoArticles={[1, 2]}
+                                          targetBoArticles={[TargetArticles]}
                                         />
                                     </TabPanel>
                                     <TabPanel value="4">
                                         <TargetArticles
-                                            targetBoArticles={[1, 2, 3, 4]}
+                                            targetBoArticles={[TargetArticles]}
                                         />
                                     </TabPanel>
                                 </Box>
 
                                 <Box className="article_bott">
                                     <Pagination
-                                        count={3}
+                                        count={5}
                                         page={1}
                                         renderItem={(item) => (
                                             <PaginationItem

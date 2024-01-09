@@ -238,13 +238,13 @@
 }
 
 .community_page .all_article_desc {
-    color: #e3c08d;
     font-family: "Poppins";
-    font-size: 20px;
+    font-size: 14px;
     font-style: normal;
-    font-weight: 600;
     line-height: normal;
-}
+    margin-top: 12px;
+  }
+  
 
 .community_page .all_article_container .target_icons {
     display: flex;
