@@ -425,8 +425,10 @@ export function VisitOtherPage(props: any) {
                                 <Box className="my_page_menu">
                                     <TabList
                                         orientation="vertical"
+                                        variant="scrollable"
+                                        value={value}
                                         onChange={handleChange}
-                                        aria-label="lab API tabs example"
+                                        aria-label="Vertical tabs example"
                                     >
                                         <Tab
                                             style={{
@@ -435,7 +437,7 @@ export function VisitOtherPage(props: any) {
                                             }}
                                             component={() => (
                                                 <div
-                                                    className={`menu_box ${value}`}
+                                                    className={`menu_box`}
                                                     onClick={() =>
                                                         setValue("1")
                                                     }
@@ -454,7 +456,7 @@ export function VisitOtherPage(props: any) {
                                             }}
                                             component={() => (
                                                 <div
-                                                    className={`menu_box ${value}`}
+                                                    className={`menu_box`}
                                                     onClick={() =>
                                                         setValue("2")
                                                     }
@@ -473,7 +475,7 @@ export function VisitOtherPage(props: any) {
                                             }}
                                             component={() => (
                                                 <div
-                                                    className={`menu_box ${value}`}
+                                                    className={`menu_box`}
                                                     onClick={() =>
                                                         setValue("3")
                                                     }

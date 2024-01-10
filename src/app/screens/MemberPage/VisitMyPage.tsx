@@ -42,6 +42,7 @@ import {
 } from "../../../lib/sweetAlert";
 import MemberApiService from "../../apiServices/memberApiService";
 import CommunityApiService from "../../apiServices/communityApiService";
+import { verifiedMemberData } from "../../apiServices/verify";
 
 /** REDUX SLICE */
 const actionDispatch = (dispach: Dispatch) => ({
@@ -74,7 +75,6 @@ const chosenSingleBoArticleRetriever = createSelector(
 
 export function VisitMyPage(props: any) {
     /** INITIALIZATIONS */
-    const { verifieaMemberData } = props;
     const {
         setChosenMember,
         setChosenMemberBoArticles,
@@ -94,7 +94,7 @@ export function VisitMyPage(props: any) {
         useState<SearchMemberArticlesObj>({ mb_id: "none", page: 1, limit: 5 });
 
     useEffect(() => {
-        if (!localStorage.getItem("member_data")) {
+        if (!verifiedMemberData) {
             sweetFailureProvider("Please login first", true, true);
         }
 
@@ -106,10 +106,10 @@ export function VisitMyPage(props: any) {
             .catch((err) => console.log(err));
 
         memberService
-            .getChosenMember(verifieaMemberData?._id)
+            .getChosenMember(verifiedMemberData?._id)
             .then((data) => setChosenMember(data))
             .catch((err) => console.log(err));
-    }, [memberArticleSearchObj, articlesRebuild, followeRebuild, chosenMember]);
+    }, [memberArticleSearchObj, articlesRebuild, followeRebuild]);
 
     /** HANDLERS */
     const handleChange = (event: any, newValue: string) => {
@@ -154,11 +154,11 @@ export function VisitMyPage(props: any) {
                                         </Box>
                                         <Box className={"menu_content"}>
                                             <MemberPosts
-                                                chosenMemberBoArticles={
-                                                    chosenMemberBoArticles
-                                                }
                                                 renderChosenArticleHandler={
                                                     renderChosenArticleHandler
+                                                }
+                                                chosenMemberBoArticles={
+                                                    chosenMemberBoArticles
                                                 }
                                                 setArticlesRebuild={
                                                     setArticlesRebuild
@@ -208,15 +208,12 @@ export function VisitMyPage(props: any) {
                                         </Box>
                                         <Box className="menu_content">
                                             <MemberFollowers
+                                                actions_enabled={true}
                                                 followeRebuild={followeRebuild}
                                                 setFollowRebuild={
                                                     setFollowRebuild
                                                 }
-                                                actions_enabled={true}
-                                                mb_id={
-                                                    props.verifieaMemberData
-                                                        ?._id
-                                                }
+                                                mb_id={verifiedMemberData?._id}
                                             />
                                         </Box>
                                     </TabPanel>
@@ -232,10 +229,7 @@ export function VisitMyPage(props: any) {
                                                     setFollowRebuild
                                                 }
                                                 actions_enabled={true}
-                                                mb_id={
-                                                    props.verifieaMemberData
-                                                        ?._id
-                                                }
+                                                mb_id={verifiedMemberData?._id}
                                             />
                                         </Box>
                                     </TabPanel>
@@ -292,8 +286,8 @@ export function VisitMyPage(props: any) {
                                         <div className="order_user_img">
                                             <img
                                                 src={
-                                                    verifieaMemberData?.mb_image
-                                                        ? verifieaMemberData?.mb_image
+                                                    verifiedMemberData?.mb_image
+                                                        ? verifiedMemberData?.mb_image
                                                         : "/auth/default_user.svg"
                                                 }
                                                 style={{
@@ -306,7 +300,7 @@ export function VisitMyPage(props: any) {
                                             <div className="order_user_icon_box">
                                                 <img
                                                     src={
-                                                        verifieaMemberData?.mb_type ===
+                                                        chosenMember?.mb_type ===
                                                         "RESTAURANT"
                                                             ? "/icons/restaurant.svg"
                                                             : "/icons/User.svg"
@@ -315,10 +309,10 @@ export function VisitMyPage(props: any) {
                                             </div>
                                         </div>
                                         <span className={"order_user_name"}>
-                                            {verifieaMemberData?.mb_nick}
+                                            {chosenMember?.mb_nick}
                                         </span>
                                         <span className={"order_user_prof"}>
-                                            {verifieaMemberData?.mb_type}
+                                            {chosenMember?.mb_type}
                                         </span>
                                     </Box>
                                     <Box className="user_media_box">
@@ -331,18 +325,16 @@ export function VisitMyPage(props: any) {
                                     <Box className="user_media_box_1">
                                         <p className="follows">
                                             Followers:{" "}
-                                            {
-                                                verifieaMemberData?.mb_subscriber_cnt
-                                            }
+                                            {chosenMember?.mb_subscriber_cnt}
                                         </p>
                                         <p className="follows">
                                             Followings:{" "}
-                                            {verifieaMemberData?.mb_follow_cnt}
+                                            {chosenMember?.mb_follow_cnt}
                                         </p>
                                     </Box>
 
                                     <span className="user_desc">
-                                        {verifieaMemberData?.mb_description ??
+                                        {chosenMember?.mb_description ??
                                             "Qo'shimcha ma'lumot kiritilmagan"}
                                     </span>
 
@@ -377,8 +369,10 @@ export function VisitMyPage(props: any) {
                                 <Box className="my_page_menu">
                                     <TabList
                                         orientation="vertical"
+                                        variant="scrollable"
+                                        value={value}
                                         onChange={handleChange}
-                                        aria-label="lab API tabs example"
+                                        aria-label="Vertical tabs example"
                                     >
                                         <Tab
                                             style={{
@@ -388,7 +382,7 @@ export function VisitMyPage(props: any) {
                                             value="1"
                                             component={() => (
                                                 <div
-                                                    className={`menu_box ${value}`}
+                                                    className={`menu_box `}
                                                     onClick={() =>
                                                         setValue("1")
                                                     }
@@ -406,7 +400,7 @@ export function VisitMyPage(props: any) {
                                             value="2"
                                             component={() => (
                                                 <div
-                                                    className={`menu_box ${value}`}
+                                                    className={`menu_box `}
                                                     onClick={() =>
                                                         setValue("2")
                                                     }
@@ -428,7 +422,7 @@ export function VisitMyPage(props: any) {
                                             value="3"
                                             component={() => (
                                                 <div
-                                                    className={`menu_box ${value}`}
+                                                    className={`menu_box `}
                                                     onClick={() =>
                                                         setValue("3")
                                                     }
