@@ -91,7 +91,7 @@ export function VisitMyPage(props: any) {
     const [articlesRebuild, setArticlesRebuild] = useState<Date>(new Date());
     const [followeRebuild, setFollowRebuild] = useState<boolean>(false);
     const [memberArticleSearchObj, setMemberArticleSearchObj] =
-        useState<SearchMemberArticlesObj>({ mb_id: "none", page: 1, limit: 5 });
+        useState<SearchMemberArticlesObj>({ mb_id: "none", page: 1, limit: 4 });
 
     useEffect(() => {
         if (!verifiedMemberData) {
@@ -239,7 +239,12 @@ export function VisitMyPage(props: any) {
                                             Maqola yozish
                                         </Box>
                                         <Box className="write_content">
-                                            <TuiEditor />
+                                            <TuiEditor
+                                                setValue={setValue}
+                                                setArticlesRebuild={
+                                                    setArticlesRebuild
+                                                }
+                                            />
                                         </Box>
                                     </TabPanel>
 
@@ -392,6 +397,7 @@ export function VisitMyPage(props: any) {
                                                 </div>
                                             )}
                                         />
+
                                         <Tab
                                             style={{
                                                 display: "flex",
