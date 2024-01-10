@@ -13,6 +13,7 @@ import { NavLink } from "react-router-dom";
 import React from "react";
 import { Logout } from "@mui/icons-material";
 import Basket from "./basket";
+import { verifiedMemberData } from "../../apiServices/verify";
 
 export function NavbarRestaurant(props: any) {
     return (
@@ -43,11 +44,16 @@ export function NavbarRestaurant(props: any) {
                                 Oshhona
                             </NavLink>
                         </Box>
-                        <Box className="hover-line" onClick={props.setPath}>
-                            <NavLink to="/orders" activeClassName="underline">
-                                Buyurtma
-                            </NavLink>
-                        </Box>
+                        {verifiedMemberData ? (
+                            <Box className="hover-line" onClick={props.setPath}>
+                                <NavLink
+                                    to="/orders"
+                                    activeClassName="underline"
+                                >
+                                    Buyurtma
+                                </NavLink>
+                            </Box>
+                        ) : null}
                         <Box className="hover-line" onClick={props.setPath}>
                             <NavLink
                                 to="/community"
@@ -56,7 +62,8 @@ export function NavbarRestaurant(props: any) {
                                 Jamiyat
                             </NavLink>
                         </Box>
-                        {props.verifiedMemberData ? (
+
+                        {verifiedMemberData ? (
                             <Box className="hover-line" onClick={props.setPath}>
                                 <NavLink
                                     to="/member-page"
@@ -79,7 +86,7 @@ export function NavbarRestaurant(props: any) {
                             onDeleteAll={props.onDeleteAll}
                             setOrdersRebuild={props.setOrdersRebuild}
                         />
-                        {!props.verifiedMemberData ? (
+                        {!verifiedMemberData ? (
                             <Box>
                                 <Button
                                     variant="contained"
@@ -99,7 +106,7 @@ export function NavbarRestaurant(props: any) {
                                     height: "48px",
                                     borderRadius: "24px",
                                 }}
-                                src={props.verifiedMemberData.mb_image}
+                                src={verifiedMemberData.mb_image}
                                 onClick={props.handleLogOutClick}
                             />
                         )}

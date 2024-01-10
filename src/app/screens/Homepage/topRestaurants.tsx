@@ -25,6 +25,7 @@ import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import { retrieveTopRestaurants } from "../../screens/Homepage/selector";
 import { Restaurant } from "../../../types/user";
+import { verifiedMemberData } from "../../apiServices/verify";
 
 /** REDUX SELECTOR */
 const topRestaurantRetriever = createSelector(
@@ -48,7 +49,7 @@ export function TopRestaurants() {
 
     const targetLikeTop = async (e: any, id: string) => {
         try {
-            assert.ok(localStorage.getItem("member_data"), Definer.auth_err1);
+            assert.ok(verifiedMemberData, Definer.auth_err1);
 
             const memberService = new MemberApiService(),
                 like_result: any = await memberService.memberLikeTarget({

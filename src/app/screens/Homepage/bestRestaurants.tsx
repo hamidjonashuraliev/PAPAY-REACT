@@ -26,6 +26,7 @@ import {
     sweetTopSmallSuccessAlert,
 } from "../../../lib/sweetAlert";
 import { useHistory } from "react-router-dom";
+import { verifiedMemberData } from "../../apiServices/verify";
 
 /** REDUX SELECTOR */
 
@@ -44,11 +45,14 @@ export function BestRestaurants() {
     const refs: any = useRef([]);
 
     /** HANDLERS */
-    const chosenRestaurantHandler = (id: string) => {history.push(`/restaurant/${id}`);};
+    const chosenRestaurantHandler = (id: string) => {
+        history.push(`/restaurant/${id}`);
+    };
     const goRestaurantsHandlers = () => history.push("/restaurant");
+
     const targetLikeBest = async (e: any, id: string) => {
         try {
-            assert.ok(localStorage.getItem("member_data"), Definer.auth_err1);
+            assert.ok(verifiedMemberData, Definer.auth_err1);
 
             const memberService = new MemberApiService(),
                 like_result: any = await memberService.memberLikeTarget({
@@ -90,8 +94,7 @@ export function BestRestaurants() {
                             const image_path = `${serverApi}/${ele.mb_image}`;
 
                             return (
-                                <CssVarsProvider
-                                key={ele._id}>
+                                <CssVarsProvider key={ele._id}>
                                     <Card
                                         onClick={() =>
                                             chosenRestaurantHandler(ele._id)
@@ -123,12 +126,15 @@ export function BestRestaurants() {
                                                         "translateY(50%)",
                                                     color: "rgba(0, 0, 0, .4)",
                                                 }}
-                                                onClick={(e) => {e.stopPropagation()}}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                }}
                                             >
                                                 <Favorite
                                                     onClick={(e) =>
                                                         targetLikeBest(
-                                                            e, ele._id
+                                                            e,
+                                                            ele._id
                                                         )
                                                     }
                                                     style={{
@@ -228,11 +234,13 @@ export function BestRestaurants() {
                                                 }}
                                             >
                                                 <div
-                                                  ref={(element) =>
-                                                    (refs.current[ele._id] =
-                                                        element)
-                                                }
-                                                >{ele.mb_likes}</div>
+                                                    ref={(element) =>
+                                                        (refs.current[ele._id] =
+                                                            element)
+                                                    }
+                                                >
+                                                    {ele.mb_likes}
+                                                </div>
                                                 <Favorite
                                                     sx={{
                                                         fontSize: 20,
@@ -253,7 +261,7 @@ export function BestRestaurants() {
                         style={{ width: "100%", marginTop: "16px" }}
                     >
                         <Button
-                            style={{ background: "#1976d2", color: "#FFFFFF" }} 
+                            style={{ background: "#1976d2", color: "#FFFFFF" }}
                             onClick={goRestaurantsHandlers}
                         >
                             Barchasini Ko'rish

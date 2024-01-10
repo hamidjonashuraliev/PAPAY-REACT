@@ -13,6 +13,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import Basket from "./basket";
+import { verifiedMemberData } from "../../apiServices/verify";
 
 export function NavbarHome(props: any) {
     return (
@@ -45,11 +46,16 @@ export function NavbarHome(props: any) {
                                 Oshhona
                             </NavLink>
                         </Box>
-                        <Box className="hover-line" onClick={props.setPath}>
-                            <NavLink to="/orders" activeClassName="underline">
-                                Buyurtma
-                            </NavLink>
-                        </Box>
+                        {verifiedMemberData ? (
+                            <Box className="hover-line" onClick={props.setPath}>
+                                <NavLink
+                                    to="/orders"
+                                    activeClassName="underline"
+                                >
+                                    Buyurtma
+                                </NavLink>
+                            </Box>
+                        ) : null}
                         <Box className="hover-line" onClick={props.setPath}>
                             <NavLink
                                 to="/community"
@@ -58,7 +64,8 @@ export function NavbarHome(props: any) {
                                 Jamiyat
                             </NavLink>
                         </Box>
-                        {props.verifiedMemberData ? (
+
+                        {verifiedMemberData ? (
                             <Box className="hover-line" onClick={props.setPath}>
                                 <NavLink
                                     to="/member-page"
@@ -82,7 +89,7 @@ export function NavbarHome(props: any) {
                             onDeleteAll={props.onDeleteAll}
                             setOrdersRebuild={props.setOrdersRebuild}
                         />
-                        {!props.verifiedMemberData ? (
+                        {!verifiedMemberData ? (
                             <Box>
                                 <Button
                                     variant="contained"
@@ -102,7 +109,7 @@ export function NavbarHome(props: any) {
                                     height: "48px",
                                     borderRadius: "24px",
                                 }}
-                                src={props.verifiedMemberData.mb_image}
+                                src={verifiedMemberData.mb_image}
                                 onClick={props.handleLogOutClick}
                             />
                         )}
@@ -116,7 +123,7 @@ export function NavbarHome(props: any) {
                                 elevation: 0,
                                 sx: {
                                     overflow: "visible",
-                                    filter: "drop-shadow(0px px 8px rgba(0,0,0,0.32))",
+                                    filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
                                     mt: 1.5,
                                     "& .MuiAvatar-root": {
                                         width: 32,
