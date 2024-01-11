@@ -190,7 +190,7 @@
 /* ********** starting targetArticles *********** */
 .community_page .all_article_box {
     width: 814.29px;
-    height: 170px;
+    height: 175px;
     flex-shrink: 0;
     border-radius: 30px;
     background: #182226;
@@ -243,8 +243,7 @@
     font-style: normal;
     line-height: normal;
     margin-top: 12px;
-  }
-  
+}
 
 .community_page .all_article_container .target_icons {
     display: flex;
