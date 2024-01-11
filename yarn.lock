@@ -4161,6 +4161,11 @@ csstype@^2.5.2:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.21.tgz#2efb85b7cc55c80017c66a5ad7cbd931fda3a90e"
   integrity sha512-Z1PhmomIfypOpoMjRQB70jfvy/wxT50qW08YXO5lMIJkrdq4yOTR+AW7FqutScmB9NkLwxo+jU+kZLbofZZq/w==
 
+curry@0.0.x:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/curry/-/curry-0.0.4.tgz#1750d518d919c44f3d37ff44edc693de1f0d5fcb"
+  integrity sha512-IPapCjuLQfb9u7HEU+l7XX10CmK5ojdvjt+0sNrZmSvSU31OZxPV78cmDj1Zm+ZX/tEh7jeYdaD4v89iJDOD0g==
+
 damerau-levenshtein@^1.0.8:
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/damerau-levenshtein/-/damerau-levenshtein-1.0.8.tgz#b43d286ccbd36bc5b2f7ed41caf2d0aba1f8a6e7"
@@ -8743,6 +8748,13 @@ relateurl@^0.2.7:
   resolved "https://registry.yarnpkg.com/relateurl/-/relateurl-0.2.7.tgz#54dbf377e51440aca90a4cd274600d3ff2d888a9"
   integrity sha512-G08Dxvm4iDN3MLM0EsP62EDV9IuhXPR6blNz6Utcp7zyV3tr4HVNINt6MpaRWbxoOHT3Q7YN2P+jaHX8vUbgog==
 
+render@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/render/-/render-0.1.4.tgz#cfb33a34e26068591d418469e23d8cc5ce1ceff5"
+  integrity sha512-mTNCTWXyulJhMFcsCZGwMjE3GjH40eE4r23Or7Sw4XnEBHO8gS5ZBHgxDGjFF1v0pe9GXx+c+8njbpry+11e3A==
+  dependencies:
+    traverser "0.0.x"
+
 renderkid@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/renderkid/-/renderkid-3.0.0.tgz#5fd823e4d6951d37358ecc9a58b1f06836b6268a"
@@ -9715,6 +9727,13 @@ tr46@^2.1.0:
   integrity sha512-15Ih7phfcdP5YxqiB+iDtLoaTz4Nd35+IiAv0kQ5FNKHzXgdWqPoTIqEDDJmXceQt4JZk6lVPT8lnDlPpGDppw==
   dependencies:
     punycode "^2.1.1"
+
+traverser@0.0.x:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/traverser/-/traverser-0.0.5.tgz#c66f38c456a0c21a88014b1223580c7ebe0631eb"
+  integrity sha512-8wq1H/gNr1PwGhmflklBTvZlY3aOgUmurSYD8PueKn1Btq01REtupQ8nY7VpcG4v2YPKBODxYKIdTt36W+Scwg==
+  dependencies:
+    curry "0.0.x"
 
 tryer@^1.0.1:
   version "1.0.1"

@@ -160,13 +160,13 @@ export function CommunityPage(props: any) {
                                     <Pagination
                                         count={
                                             searchArticlesObj.page >= 3
-                                              ? searchArticlesObj.page + 1
-                                              : 3
-                                          }
-                                          page={searchArticlesObj.page}
-                                          renderItem={(item) => (
+                                                ? searchArticlesObj.page + 1
+                                                : 3
+                                        }
+                                        page={searchArticlesObj.page}
+                                        renderItem={(item) => (
                                             <PaginationItem
-                                            sx={{ color: "#6495ED" }}
+                                                sx={{ color: "#6495ED" }}
                                                 components={{
                                                     previous: ArrowBackIcon,
                                                     next: ArrowForwardIcon,

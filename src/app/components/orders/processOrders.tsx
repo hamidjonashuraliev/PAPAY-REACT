@@ -105,7 +105,7 @@ export default function ProcessOrders(props: any) {
 
                             <Box className="total_price_box MediumPurple_solid">
                                 <Box className="boxTotal">
-                                    <p>mahsulot narxi</p>
+                                    <p>Mahsulot narxi</p>
                                     <p>
                                         $
                                         {order.order_total_amount -
@@ -118,7 +118,7 @@ export default function ProcessOrders(props: any) {
                                             marginRight: "10px",
                                         }}
                                     />
-                                    <p>yetgazish xizmati</p>
+                                    <p>Yetgazish xizmati</p>
                                     <p>${order.order_delivery_cost}</p>
                                     <img
                                         src="/icons/pause.svg"
@@ -127,8 +127,8 @@ export default function ProcessOrders(props: any) {
                                             marginRight: "10px",
                                         }}
                                     />
-                                    <p>jami narx</p>
-                                    <p>${order.order_total_amount}</p>
+                                    <p>Jami narx</p>
+                                    <p>${order?.order_total_amount}</p>
                                     <Box>
                                         <Marginer
                                             direction="vertical"

@@ -14,12 +14,14 @@ import moment from "moment";
 
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
-
-const label = { inputProps: { "aria-label": "Checkbox demo" } };
 import assert from "assert";
-import { Definer } from "../../../lib/Definer";
 import MemberApiService from "../../apiServices/memberApiService";
 import { verifiedMemberData } from "../../apiServices/verify";
+import { Definer } from "../../../lib/Definer";
+
+const label = { inputProps: { "aria-label": "Checkbox demo" } };
+
+
 
 export function TargetArticles(props: any) {
     const time = moment().format("YY-MM-DD HH:mm");
@@ -104,7 +106,11 @@ export function TargetArticles(props: any) {
                                 color={"#fff"}
                                 className={"target_icons"}
                             >
-                                <span>{moment().format("YY-MM-DD HH:mm")}</span>
+                                <span>
+                                    {moment(article?.createdAt).format(
+                                        "YY-MM-DD HH:mm"
+                                    )}
+                                </span>
                                 <Checkbox
                                     sx={{ ml: "40px" }}
                                     icon={<FavoriteBorder />}
