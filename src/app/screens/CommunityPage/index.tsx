@@ -158,10 +158,15 @@ export function CommunityPage(props: any) {
 
                                 <Box className="article_bott">
                                     <Pagination
-                                        count={5}
-                                        page={1}
-                                        renderItem={(item) => (
+                                        count={
+                                            searchArticlesObj.page >= 3
+                                              ? searchArticlesObj.page + 1
+                                              : 3
+                                          }
+                                          page={searchArticlesObj.page}
+                                          renderItem={(item) => (
                                             <PaginationItem
+                                            sx={{ color: "#6495ED" }}
                                                 components={{
                                                     previous: ArrowBackIcon,
                                                     next: ArrowForwardIcon,

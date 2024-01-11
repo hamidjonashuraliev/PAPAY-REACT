@@ -163,6 +163,7 @@ export function MemberFollowing(props: any) {
                         page={followingsSearchObj.page}
                         renderItem={(item) => (
                             <PaginationItem
+                                sx={{ color: "#6495ED" }}
                                 components={{
                                     previous: ArrowBackIcon,
                                     next: ArrowForwardIcon,

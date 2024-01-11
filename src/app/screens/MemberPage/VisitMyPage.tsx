@@ -184,6 +184,9 @@ export function VisitMyPage(props: any) {
                                                         }
                                                         renderItem={(item) => (
                                                             <PaginationItem
+                                                                sx={{
+                                                                    color: "#6495ED",
+                                                                }}
                                                                 components={{
                                                                     previous:
                                                                         ArrowBackIcon,
@@ -254,9 +257,6 @@ export function VisitMyPage(props: any) {
                                         </Box>
                                         <Box className="menu_content">
                                             <TViewer
-                                                renderChosenArticleHandler={
-                                                    renderChosenArticleHandler
-                                                }
                                                 chosenSingleBoArticle={
                                                     chosenSingleBoArticle
                                                 }

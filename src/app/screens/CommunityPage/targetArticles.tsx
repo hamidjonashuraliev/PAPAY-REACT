@@ -82,7 +82,7 @@ export function TargetArticles(props: any) {
                                     }}
                                 />
                                 <span className={"all_article_author_user"}>
-                                    {article.member_data.mb_nick}
+                                    {article?.member_data.mb_nick}
                                 </span>
                             </Box>
                             <Box
