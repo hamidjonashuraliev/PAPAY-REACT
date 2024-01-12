@@ -21,8 +21,6 @@ import { Definer } from "../../../lib/Definer";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
-
-
 export function TargetArticles(props: any) {
     const time = moment().format("YY-MM-DD HH:mm");
     const { setArticlesRebuild } = props;
