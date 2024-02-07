@@ -21,8 +21,10 @@ class OrderApiService {
                 result = await axios.post(this.path + url, data, {
                     withCredentials: true,
                 });
-
+                console.log("qaaaaaa", result?.data);
             assert.ok(result?.data, Definer.general_err1);
+            console.log("hhhh", result?.data);
+            
             assert.ok(result?.data?.state != "fail", result?.data?.message);
             console.log("state:", result.data.state);
             const order: any = result.data.data;
@@ -59,8 +61,10 @@ class OrderApiService {
             result = await axios.post(this.path + url, data,{
               withCredentials: true,
             });
-    
+              console.log("fffffff" , result?.data);
+              
           assert.ok(result?.data, Definer.general_err1);
+          console.log("5555555555" , result?.data);
           assert.ok(result?.data?.state != "fail", result?.data?.message);
           console.log("state:", result.data.state);
     

@@ -12,25 +12,6 @@ class MemberApiService {
         this.path = serverApi;
     }
 
-    public async loginRequest(login_data: any) {
-        try {
-            const result = await axios.post(this.path + "/login", login_data, {
-                withCredentials: true,
-            });
-
-            assert.ok(result?.data, Definer.general_err1);
-            assert.ok(result?.data?.state != "fail", result?.data?.message);
-            console.log("state:", result.data.state);
-
-            const member: Member = result.data.data;
-            localStorage.setItem("member_data", JSON.stringify(member));
-            return member;
-        } catch (err: any) {
-            console.log(`ERROR ::: loginRequest, ${err.message}`);
-            throw err;
-        }
-    }
-
     public async signupRequest(signup_data: any) {
         try {
             const result = await axios.post(
@@ -42,74 +23,91 @@ class MemberApiService {
             );
 
             assert.ok(result?.data, Definer.general_err1);
-            assert.ok(result?.data?.state != "fail", result?.data?.message);
-            console.log("state:", result.data.state);
+            assert.ok(result?.data?.state !== "fail", result?.data?.message);
+            console.log("state: ", result.data.state);
+            console.log("state", "success");
 
             const member: Member = result.data.data;
             localStorage.setItem("member_data", JSON.stringify(member));
             return member;
         } catch (err: any) {
-            console.log(`ERROR ::: signupRequest, ${err.message}`);
+            console.log(`ERROR ::: loginRequest ${err.message}`);
             throw err;
         }
     }
 
-    public async logOutRequest() {
+    public async loginRequest(login_data: any): Promise<Member> {
+        try {
+            const result = await axios.post(this.path + "/login", login_data, {
+                withCredentials: true,
+            });
+
+            console.log("state::", result.data.state);
+            assert.ok(result?.data, Definer.general_err1);
+            assert.ok(result?.data?.state !== "fail", result?.data?.message); // Checking state
+            const member: Member = result.data.data;
+            localStorage.setItem("member_data", JSON.stringify(member)); //member objectni jasonga uzgartirib saqlagin
+            return member;
+        } catch (err: any) {
+            console.log(`ERROR ::: loginRequest ${err.message}`);
+            throw err;
+        }
+    }
+
+    public async logOutRequest(): Promise<any> {
         try {
             const result = await axios.get(this.path + "/logout", {
                 withCredentials: true,
             });
 
             assert.ok(result?.data, Definer.general_err1);
-            assert.ok(result?.data?.state != "fail", result?.data?.message);
+            assert.ok(result?.data?.state !== "fail", result?.data?.message);
+            localStorage.removeItem("member_data");
             console.log("state:", result.data.state);
 
             const logout_result = result.data.state;
-            return logout_result == "success";
+            return logout_result === "success";
         } catch (err: any) {
-            console.log(`ERROR ::: logOutRequest, ${err.message}`);
+            console.log(`ERROR ::: logOutRequest ${err.message}`);
             throw err;
         }
     }
 
-    public async memberLikeTarget(data: any) {
+    public async memberLikeTarget(data: any): Promise<MemberLiken> {
         try {
             const url = "/member-liken",
                 result = await axios.post(this.path + url, data, {
                     withCredentials: true,
                 });
-
             assert.ok(result?.data, Definer.general_err1);
-            assert.ok(result?.data?.state != "fail", result?.data?.message);
+            assert.ok(result?.data?.state !== "fail", result?.data?.message);
             console.log("state:", result.data.data);
-
             const like_result: MemberLiken = result.data.data;
             return like_result;
         } catch (err: any) {
-            console.log(`ERROR ::: memberLikeTarget, ${err.message}`);
+            console.log(`ERROR ::: memberLikeTarget ${err.message}`);
             throw err;
         }
     }
 
-    public async getChosenMember(id: string) {
+    public async getChosenMember(id: string): Promise<Member> {
         try {
-            const url = `/member/${id}`,
-                result = await axios.get(this.path + url, {
+            const url = `${this.path}/member/${id}`,
+                result = await axios.get(url, {
                     withCredentials: true,
                 });
 
             assert.ok(result?.data, Definer.general_err1);
-            assert.ok(result?.data?.state != "fail", result?.data?.message);
+            assert.ok(result?.data?.state !== "fail", result?.data?.message);
             console.log("state:", result.data.data);
 
             const member: Member = result.data.data;
             return member;
         } catch (err: any) {
-            console.log(`ERROR ::: getChosenMember, ${err.message}`);
+            console.log(`ERROR ::: getChosenMember ${err.message}`);
             throw err;
         }
     }
-
     public async updateMemberData(data: MemberUpdateData) {
         try {
             let formData = new FormData();
@@ -127,16 +125,15 @@ class MemberApiService {
                     "Content-Type": "multipart/form-data",
                 },
             });
-
             assert.ok(result?.data, Definer.general_err1);
-            assert.ok(result?.data?.state != "fail", result?.data?.message);
-            console.log("state:", result.data.state);
+            assert.ok(result?.data?.state !== "fail", result?.data?.message);
+            console.log("state", result.data.state);
 
             const member: Member = result.data.data;
             localStorage.setItem("member_data", JSON.stringify(member));
             return member;
         } catch (err: any) {
-            console.log(`ERROR ::: updateMemberData, ${err.message}`);
+            console.log(`ERROR ::: updateMemberData ${err.message}`);
             throw err;
         }
     }

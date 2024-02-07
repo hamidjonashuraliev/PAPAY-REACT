@@ -64,7 +64,7 @@ export function OrdersPage(props: any) {
             .getMyOrders("finished")
             .then((data) => setFinishedOrders(data))
             .catch((err) => console.log(err));
-    }, [props.orderRebuild]);
+    }, [props.ordersRebuild]);
 
     /* HANDLERS */
     const handleChange = (event: any, newValue: string) => {
@@ -110,13 +110,13 @@ export function OrdersPage(props: any) {
                         />
                         <Stack className={"order_main_content"}>
                             <PausedOrders
-                                setOrderRebuild={props.setOrderRebuild}
+                                setOrdersRebuild={props.setOrdersRebuild}
                             />
                             <ProcessOrders
-                                setOrderRebuild={props.setOrderRebuild}
+                                setOrdersRebuild={props.setOrdersRebuild}
                             />
                             <FinishedOrders
-                                setOrderRebuild={props.setOrderRebuild}
+                                setOrdersRebuild={props.setOrdersRebuild}
                             />
                         </Stack>
                     </TabContext>

@@ -1,30 +1,29 @@
+import { createSlice } from "@reduxjs/toolkit";
 import { BoArticle } from "./boArticle";
-import { Follower, Following } from "./follow";
-import { Order } from "./orders";
 import { Product } from "./product";
 import { Member, Restaurant } from "./user";
+import { Order } from "../types/orders";
+import { Follower, Following } from "./follow";
 
-/** REACT APP STATE */
+/*react app state*/
 export interface AppRootState {
-    ordersPage: any;
     homePage: HomePageState;
     restaurantPage: RestaurantPageState;
-    orderPage: OrdersPageState;
+    ordersPage: OrdersPageState;
     communityPage: CommunityPageState;
     memberPage: MemberPageState;
 }
-
-/** HOMEPAGE */
+/**HOMEPAGE */
 export interface HomePageState {
     topRestaurants: Restaurant[];
     bestRestaurants: Restaurant[];
     trendProducts: Product[];
-    bestBoArticles: BoArticle[];
-    trendBoArticles: BoArticle[];
-    newsBoArticles: BoArticle[];
+    bestBoarticles: BoArticle[];
+    trendBoarticles: BoArticle[];
+    newsBoarticles: BoArticle[];
 }
 
-/** RESTAURANT PAGE*/
+/**RESTAURANT PAGE  */
 export interface RestaurantPageState {
     targetRestaurants: Restaurant[];
     randomRestaurants: Restaurant[];
@@ -33,17 +32,17 @@ export interface RestaurantPageState {
     chosenProduct: Product | null;
 }
 
-/**ORDERS PAGE */
+// OrdersPageState Interface
 export interface OrdersPageState {
     pausedOrders: Order[];
     processOrders: Order[];
     finishedOrders: Order[];
 }
-/** COMMUNITY PAGE */
+/**COMMUNITY PAGE */
 export interface CommunityPageState {
     targetBoArticles: BoArticle[];
 }
-/** MEMBER PAGE */
+/**MEMBER PAGE */
 export interface MemberPageState {
     chosenMember: Member | null;
     chosenMemberBoArticles: BoArticle[];

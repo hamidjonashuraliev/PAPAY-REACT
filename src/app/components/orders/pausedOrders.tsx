@@ -48,7 +48,7 @@ export default function PausedOrders(props: any) {
             if (confirmation) {
                 const orderService = new OrderApiService();
                 await orderService.updateOrderStatus(data);
-                props.setOrderRebuild(new Date());
+                props.setOrdersRebuild(new Date());
             }
         } catch (err) {
             console.log("deleteOrderHandler, ERROR: ", err);
@@ -71,7 +71,7 @@ export default function PausedOrders(props: any) {
             if (confirmation) {
                 const orderService = new OrderApiService();
                 await orderService.updateOrderStatus(data);
-                props.setOrderRebuild(new Date());
+                props.setOrdersRebuild(new Date());
             }
         } catch (err) {
             console.log("processOrderHandler, ERROR: ", err);

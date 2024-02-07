@@ -5,9 +5,9 @@ const initialState: HomePageState = {
     topRestaurants: [],
     bestRestaurants: [],
     trendProducts: [],
-    bestBoArticles: [],
-    trendBoArticles: [],
-    newsBoArticles: [],
+    bestBoarticles: [],
+    trendBoarticles: [],
+    newsBoarticles: [],
 };
 
 const HomePageSlice = createSlice({
@@ -24,13 +24,13 @@ const HomePageSlice = createSlice({
             state.trendProducts = action.payload;
         },
         setBestBoArticles: (state, action) => {
-            state.bestBoArticles = action.payload;
+            state.bestBoarticles = action.payload;
         },
         setTrendBoArticles: (state, action) => {
-            state.trendBoArticles = action.payload;
+            state.trendBoarticles = action.payload;
         },
         setNewsBoArticles: (state, action) => {
-            state.newsBoArticles = action.payload;
+            state.newsBoarticles = action.payload;
         },
     },
 });

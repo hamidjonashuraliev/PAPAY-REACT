@@ -51,7 +51,6 @@ export default function Basket(props: any) {
             sweetErrorHandling(err).then();
         }
     };
-    const processOrderHandler = async () => {};
 
     return (
         <Box className={"hover-line"}>
@@ -174,7 +173,7 @@ export default function Basket(props: any) {
                                 {shippingPrice})
                             </span>
                             <Button
-                                onClick={processOrderHandler}
+                                onClick={processOrdersHandler}
                                 startIcon={<ShoppingCartIcon />}
                                 variant={"contained"}
                             >

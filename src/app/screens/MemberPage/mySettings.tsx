@@ -10,10 +10,9 @@ import {
     sweetErrorHandling,
     sweetTopSmallSuccessAlert,
 } from "../../../lib/sweetAlert";
-import MemberAipService from "../../apiServices/memberApiService";
-
+import MemberApiService from "../../apiServices/memberApiService";
 export function MySettings(props: any) {
-    /** INITIALIZATIONS */
+    /**INITIALIZATIONS */
     const [file, setFile] = useState(verifiedMemberData?.mb_image);
 
     const [memberUpdate, setMemberUpdate] = useState<MemberUpdateData>({
@@ -24,7 +23,7 @@ export function MySettings(props: any) {
         mb_image: "",
     });
 
-    /** HANDLERS */
+    /**HANDLERS */
     const changeMemberNickHandler = (e: any) => {
         memberUpdate.mb_nick = e.target.value;
         setMemberUpdate({ ...memberUpdate });
@@ -46,27 +45,30 @@ export function MySettings(props: any) {
         try {
             const file = e.target.files[0];
 
-            const fileType = file["type"],
+            const fileTypes = file["type"],
                 validTypes = ["image/jpg", "image/jpeg", "image/png"];
             assert.ok(
-                validTypes.includes(fileType) && file,
-                Definer.input_err2
+                validTypes.includes(fileTypes) && file,
+                Definer.auth_err2
             );
 
             memberUpdate.mb_image = file;
             setMemberUpdate({ ...memberUpdate });
             setFile(URL.createObjectURL(file));
-        } catch (err: any) {
-            console.log(`ERROR ::: handleImagePreviewer, ${err}`);
+        } catch (err) {
+            console.log(`ERROR ::: handleImagePreviewer ${err}`);
             sweetErrorHandling(err).then();
         }
     };
 
     const handleSubmitButton = async () => {
-        try {
-            const memberService = new MemberAipService();
-            const result = await memberService.updateMemberData(memberUpdate);
+        console.log("hato");
 
+        try {
+            console.log("hato1");
+            const memberService = new MemberApiService();
+            const result = await memberService.updateMemberData(memberUpdate);
+            console.log("result: ", result);
             assert.ok(result, Definer.general_err1);
             await sweetTopSmallSuccessAlert(
                 "Information modified successfully!",
@@ -75,27 +77,24 @@ export function MySettings(props: any) {
             );
             window.location.reload();
         } catch (err) {
-            console.log(`ERROR ::: handleSubmitButton, ${err}`);
+            console.log(`ERROR ::: handleSubmitButton ${err}`);
             sweetErrorHandling(err).then();
         }
     };
 
     return (
         <Stack className="my_settings_page">
-            <Box className="member_media_frame">
+            <Box className={"member_media_frame"}>
                 <img
                     src={file}
-                    className="nb_image"
-                    width={"100px"}
+                    className="mb_image"
                     style={{ borderRadius: "50%" }}
-                    height="100px"
+                    width={"100px"}
+                    height={"100px"}
                 />
-
                 <div className="media_change_box">
-                    <span className="text_rasm">Rasm Yuklash</span>
-                    <p className="text_rasm_1">
-                        JPG, JPEG, PNG rasmlarni yuklay olasiz!
-                    </p>
+                    <span>Rasm Yuklash</span>
+                    <p>JPG,JPEG,PNG rasmlarini yuklay olasiz!</p>
                     <div className="up_del_box">
                         <Button
                             component="label"
@@ -108,62 +107,61 @@ export function MySettings(props: any) {
                     </div>
                 </div>
             </Box>
-
             <Box className="input_frame">
                 <div className="long_input">
-                    <label className="spec_label">Ism</label>
+                    <label className="spec_label">Name</label>
                     <input
-                        className="spec_input mb_nick"
                         type="text"
-                        placeholder={verifiedMemberData?.mb_nick}
+                        className="spec_input mb_nick"
                         name="mb_nick"
+                        placeholder={verifiedMemberData?.mb_nick}
                         onChange={changeMemberNickHandler}
                     />
                 </div>
             </Box>
-
             <Box className="input_frame">
-                <div className="short_input long_input">
+                <div className="short_input">
                     <label className="spec_label">Telefon Raqam</label>
                     <input
-                        className="spec_input mb_phone"
                         type="text"
-                        placeholder={verifiedMemberData?.mb_phone}
+                        className="spec_input mb_phone"
                         name="mb_phone"
+                        placeholder={verifiedMemberData?.mb_phone}
                         onChange={changeMemberPhoneHandler}
                     />
                 </div>
-
-                <div className="short_input long_input">
+                <div className="short_input">
                     <label className="spec_label">Manzil</label>
                     <input
-                        className="spec_input mb_address"
                         type="text"
+                        className="spec_input mb_address"
+                        name="mb_address"
                         placeholder={
                             verifiedMemberData?.mb_address ??
                             "manzil kiritilmagan"
                         }
-                        name="mb_address"
                         onChange={changeMemberAddressHandler}
                     />
                 </div>
             </Box>
-
             <Box className="input_frame">
                 <div className="long_input">
                     <label className="spec_label">Ma'lumot</label>
                     <textarea
+                        className="spec_textarea mb_description"
+                        name="mb_description"
                         placeholder={
                             verifiedMemberData?.mb_description ?? "mavjud emas"
                         }
-                        name="mb_description"
-                        className="spec_textarea mb_description"
                         onChange={changeMemberDescriptionHandler}
                     />
                 </div>
             </Box>
-
-            <Box display="flex" justifyContent="flex-end" sx={{ mt: "25px" }}>
+            <Box
+                display={"flex"}
+                justifyContent={"flex-end"}
+                sx={{ mt: "25px" }}
+            >
                 <Button variant="contained" onClick={handleSubmitButton}>
                     Saqlash
                 </Button>

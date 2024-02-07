@@ -56,7 +56,7 @@ export function CommunityChats() {
     const [message, setMessage] = useState<string>("");
 
     useEffect(() => {
-        socket.connect();
+        socket?.connect();
         console.log("PRINTED");
 
         socket?.on("connect", function () {
@@ -97,7 +97,7 @@ export function CommunityChats() {
         });
 
         return () => {
-            socket.disconnect();
+            socket?.disconnect();
         };
     }, [socket]);
 

@@ -52,7 +52,7 @@ export default function ProcessOrders(props: any) {
             if (confirmation) {
                 const orderService = new OrderApiService();
                 await orderService.updateOrderStatus(data);
-                props.setOrderRebuild(new Date());
+                props.setOrdersRebuild(new Date());
             }
         } catch (err) {
             console.log("finishOrderHandler, ERROR: ", err);

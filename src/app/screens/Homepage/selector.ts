@@ -15,13 +15,13 @@ export const retrieveTrendProducts = createSelector(
 );
 export const retrieveTrendBoArticles= createSelector(
     selectHomePage,
-    (HomePage) => HomePage.trendBoArticles
+    (HomePage) => HomePage.trendBoarticles
 );
 export const retrieveBestBoArticles = createSelector(
     selectHomePage,
-    (HomePage) => HomePage.bestBoArticles
+    (HomePage) => HomePage.bestBoarticles
 );
 export const retrieveNewsBoArticles = createSelector(
     selectHomePage,
-    (HomePage) => HomePage.newsBoArticles
+    (HomePage) => HomePage.newsBoarticles
 );

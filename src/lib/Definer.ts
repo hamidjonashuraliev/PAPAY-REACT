@@ -4,4 +4,5 @@ export const Definer = {
     input_err3: "att: message is empty!",
     general_err1: "att: something went wrong!",
     auth_err1: "att: please login first!",
+    auth_err2: "att: please insert jpeg jpg png formats only!",
 };
